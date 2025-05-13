@@ -1,5 +1,5 @@
 import fetchApi from "../utils/fetchApi";
-import type { Categories } from "../types/product";
+import type { Categories } from "../types/Product";
 import { useEffect, useState } from "react";
 
 interface Product {
