@@ -19,10 +19,10 @@ const Header = () => {
 
       <section className="flex w-2/3 lg:w-1/3 items-center space-x-4">
         <div className="relative w-full">
-          <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+          <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--primary-theme)] opacity-50" />
           <Input type="text" placeholder="Search" className="pl-10 pr-4 py-2" />
         </div>
-        <FaMicrophone className="text-xl text-gray-600" />
+        <FaMicrophone className="text-xl text-[var(--primary-theme)] opacity-75" />
       </section>
 
       <section className="hidden lg:flex items-center justify-between space-x-2">

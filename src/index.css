@@ -12,7 +12,53 @@
 }
 
 /* TODO Custom CSS */
+:root {
+  --text-theme: #2b2b2b;
+  --bg-theme: #f6f6f6;
+  --nav-theme: #90ddf0;
+  --frame-theme: #d9f0ff;
+  --retext-theme: #cbf3f0;
+  --primary-theme: #0d1321;
+}
 
+.dark-theme {
+  --text-theme: #fef9ff;
+  --bg-theme: #502f4c;
+  --nav-theme: #2f6690;
+  --frame-theme: #5d717e;
+  --retext-theme: #454955;
+  --primary-theme: #cbf3f0;
+}
+
+/* ! Fixed Colors */
+.footer {
+  background-color: #0d1321;
+  color: #cbf3f0;
+}
+
+/* ? Underline */
+.underline-hover {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.underline-hover::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease, left 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.underline-hover:hover::after {
+  width: 100%;
+}
 
 /* ! Shadcn ui */
 @theme inline {

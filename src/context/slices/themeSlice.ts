@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { type PayloadAction } from "@reduxjs/toolkit";
+import type { AppDispatch } from "../store";
 
 type Theme = "light" | "dark";
 
@@ -46,11 +47,16 @@ const themeSlice = createSlice({
   name: "theme",
   initialState,
   reducers: {
-    toggleTheme(state) {
-      state.theme = state.theme === "light" ? "dark" : "light";
-    },
+    // ? Set to local storage
     setTheme(state, action: PayloadAction<Theme>) {
       state.theme = action.payload;
+      localStorage.setItem("theme", action.payload);
+    },
+    toggleTheme(state) {
+      const newTheme = (state.theme =
+        state.theme === "light" ? "dark" : "light");
+      state.theme = newTheme;
+      localStorage.setItem("theme", newTheme);
     },
     setCustomColor(state, action: PayloadAction<ThemeColors>) {
       if (state.theme === "light") state.colors.light = action.payload;
@@ -58,6 +64,15 @@ const themeSlice = createSlice({
     },
   },
 });
+
+// ? Get Theme from local storage
+
+export const loadTheme = () => (dispatch: AppDispatch) => {
+  const storedTheme = localStorage.getItem("theme");
+  if (storedTheme === "light" || storedTheme === "dark") {
+    dispatch(setTheme(storedTheme));
+  }
+};
 
 export const { toggleTheme, setTheme, setCustomColor } = themeSlice.actions;
 export default themeSlice.reducer;
