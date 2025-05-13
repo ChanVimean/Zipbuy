@@ -11,14 +11,17 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./hook/redux";
 import { loadTheme } from "./context/slices/themeSlice";
 import Footer from "./components/Footer";
+import BottomBar from "./components/BottomBar";
+import Cart from "./page/Cart";
 
-const pcNav = [
+const navigation = [
   { title: "/", link: <Home /> },
   { title: "/Categories", link: <Categories /> },
   { title: "/Product", link: <Product /> },
   { title: "/Build", link: <Build /> },
   { title: "/Custom", link: <Custom /> },
   { title: "/Profile", link: <Profile /> },
+  { title: "/Cart", link: <Cart /> },
 ];
 
 const App: React.FC = () => {
@@ -42,16 +45,19 @@ const App: React.FC = () => {
   }, [theme, colors]);
 
   return (
-    <div className="font-poppins bg-[var(--bg-theme)] text-[var(--text-theme)]">
+    <div className="relative font-poppins bg-[var(--bg-theme)] text-[var(--text-theme)]">
       <nav className="fixed-top">
         <Header />
         <NavBar />
+        <aside className="fixed lg:hidden w-full bottom-0 z-50">
+          <BottomBar />
+        </aside>
       </nav>
 
       <main>
         <section>
           <Routes>
-            {pcNav.map((nav, index) => (
+            {navigation.map((nav, index) => (
               <Route key={index} path={nav.title} element={nav.link} />
             ))}
           </Routes>
