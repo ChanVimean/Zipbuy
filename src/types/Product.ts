@@ -1,4 +1,10 @@
-export type Categories = "laptops" | "monitors" | "cameras" | "desktops";
+export const CategoriesList: string[] = [
+  "laptops",
+  "monitors",
+  "cameras",
+  "desktops",
+] as const;
+export type Categories = (typeof CategoriesList)[number];
 
 // ? Base Types
 interface BaseProduct {
@@ -8,7 +14,9 @@ interface BaseProduct {
   categories: Categories;
   price: number;
   available: boolean;
-  limted: boolean;
+  limited: boolean;
+  thumbnail: string;
+  images: string[];
   desc: string;
 }
 

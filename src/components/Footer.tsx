@@ -71,7 +71,7 @@ const Footer = () => {
   ];
 
   return (
-    <div className="w-full h-auto footer space-y-5 py-16">
+    <div className="w-full h-auto footer space-y-5 py-16 lg:py-0">
       {/* Main Content */}
       <section
         className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4
