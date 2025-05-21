@@ -13,8 +13,10 @@ interface BaseProduct {
   name: string;
   categories: Categories;
   price: number;
+  discount: number;
   available: boolean;
   limited: boolean;
+  rating: number;
   thumbnail: string;
   images: string[];
   desc: string;
