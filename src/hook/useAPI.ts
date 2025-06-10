@@ -7,7 +7,7 @@ interface Product {
 }
 
 const useAPI = <T extends Product>(
-  category: Categories
+  category: Categories | "all"
 ): [T[], boolean, string | null] => {
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -17,9 +17,10 @@ const useAPI = <T extends Product>(
     const fetchCategoies = async () => {
       try {
         const res = await fetchApi();
-        const filtered = (res as T[]).filter(
-          (item) => item.categories === category
-        );
+        const filtered =
+          category === "all"
+            ? (res as T[])
+            : (res as T[]).filter((item) => item.categories === category);
         setData(filtered);
       } catch (error) {
         setError("Failed to fetch data");

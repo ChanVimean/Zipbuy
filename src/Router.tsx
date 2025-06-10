@@ -9,7 +9,6 @@ import Custom from "./page/Custom";
 import Profile from "./page/Profile";
 import Cart from "./page/Cart";
 import type { JSX } from "react";
-import Dashboard from "./page/admins/Dashboard";
 
 interface RouterInterface {
   path: string;
@@ -26,10 +25,6 @@ const Router = () => {
     { path: "Cart", link: <Cart /> },
   ];
 
-  const Admins: RouterInterface[] = [
-    { path: "dashboard", link: <Dashboard /> },
-  ];
-
   return (
     <Routes>
       {/* User */}
@@ -43,9 +38,6 @@ const Router = () => {
       {/* Admin */}
       <Route path="/admin" element={<Admin />}>
         <Route index element={<Admin />} />
-        {Admins.map((admin, index) => (
-          <Route key={index} path={admin.path} element={admin.link} />
-        ))}
       </Route>
     </Routes>
   );

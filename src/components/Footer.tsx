@@ -19,22 +19,19 @@ const Footer = () => {
     shipping and secure checkouts.`;
 
   const categories1: string[] = [
-    "Accessories",
-    "Cameras",
-    "components",
-    "Desktops",
-    "Drones",
-    "Gaming Consoles",
     "Laptops",
     "Monitors",
+    "Cameras",
+    "Desktops",
+    "Phones",
   ];
 
   const categories2: string[] = [
-    "Projectors",
-    "Printers",
-    "Smart Wacthes",
-    "Speakers",
-    "TVs",
+    "Watches",
+    "Tvs",
+    "Drones",
+    "Chairs",
+    "Tablets",
   ];
 
   const reachUs: { title: string; icon: JSX.Element }[] = [
@@ -89,18 +86,24 @@ const Footer = () => {
           <h1 className="font-semibold text-2xl">Categories</h1>
           <section className="flex justify-center space-x-4">
             <ul>
-              {categories1.map((category, index) => (
-                <li key={index}>
-                  <span className="underline-hover">{category}</span>
-                </li>
-              ))}
+              {categories1
+                .slice()
+                .sort((a, b) => a.localeCompare(b))
+                .map((category, index) => (
+                  <li key={index}>
+                    <span className="underline-hover">{category}</span>
+                  </li>
+                ))}
             </ul>
             <ul>
-              {categories2.map((category, index) => (
-                <li key={index}>
-                  <span className="underline-hover">{category}</span>
-                </li>
-              ))}
+              {categories2
+                .slice()
+                .sort((a, b) => a.localeCompare(b))
+                .map((category, index) => (
+                  <li key={index}>
+                    <span className="underline-hover">{category}</span>
+                  </li>
+                ))}
             </ul>
           </section>
         </article>
