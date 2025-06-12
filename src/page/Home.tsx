@@ -38,26 +38,20 @@ const Home = () => {
   const topRated = data.filter((item) => item.rating >= 7.0);
 
   return (
-    <div className="grid py-2 md:py-8 gap-8">
+    <div className="grid py-2 md:py-8 gap-8 w-full">
       {/* Top Row */}
-      <section className="relative lg:h-[500px] overflow-hidden">
-        {/* Column Middle */}
-        <div className="overflow-hidden h-full">
-          <img
-            src={
-              "https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?cs=srgb&dl=pexels-pixabay-356056.jpg&fm=jpg"
-            }
-            alt="Top Laptop"
-            className="w-full h-full object-cover object-center"
-          />
-        </div>
-
-        {/* Model overlay */}
-        <div className="absolute inset-0 flex items-center justify-center hover:bg-black/50 transition duration-300 cursor-pointer"></div>
+      <section className="lg:h-[500px] overflow-hidden">
+        <img
+          src={
+            "https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?cs=srgb&dl=pexels-pixabay-356056.jpg&fm=jpg"
+          }
+          alt="Top Laptop"
+          className="w-full h-full object-cover object-center"
+        />
       </section>
 
       {/* Mini Pages */}
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 overflow-hidden">
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 my-16 overflow-hidden">
         {miniSections.map((section, index) => (
           <a
             key={index}
@@ -70,10 +64,10 @@ const Home = () => {
         ))}
       </section>
 
-      {/* Top Trend */}
-      <section>
-        <Carousel opts={{ slidesToScroll: 1.5 }}>
-          <CarouselContent className="">
+      {/* Trend */}
+      <section className="flex items-center justify-center">
+        <Carousel opts={{ slidesToScroll: 1.5 }} className="md:w-[95%]">
+          <CarouselContent>
             {topRated.map((rate, index) => (
               <CarouselItem
                 key={index}
@@ -93,18 +87,32 @@ const Home = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="hidden md:flex text-black" />
+          <CarouselNext className="hidden md:flex text-black" />
         </Carousel>
       </section>
 
-      {/*  */}
-      <section>
-        <CarouselDetail
-          data={data}
-          filterFn={(item) => item.limited === true}
-        />
+      {/* Limited Edition */}
+      <section className="flex justify-center items-center mt-16">
+        <div className="w-[95%]">
+          <CarouselDetail
+            title="Limited Edition"
+            data={data}
+            filterFn={(item) => item.limited === true && item.discount > 0}
+          />
+        </div>
       </section>
+
+      {/* Top Rate */}
+      {/* <section className="flex justify-center items-center">
+        <div className="w-[95%]">
+          <CarouselDetail
+            title="Top Rate"
+            data={data}
+            filterFn={(item) => item.available === true && item.rating >= 7}
+          />
+        </div>
+      </section> */}
     </div>
   );
 };

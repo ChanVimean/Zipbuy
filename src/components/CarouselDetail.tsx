@@ -6,15 +6,15 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "./ui/carousel";
-import { FaCartPlus, FaRegHeart } from "react-icons/fa";
-import { TbListDetails } from "react-icons/tb";
 
 interface CarouselDetailInterface {
+  title: string;
   data: BaseProduct[];
-  filterFn: (item: BaseProduct) => boolean;
+  filterFn: (item: BaseProduct) => void;
 }
 
 const CarouselDetail: React.FC<CarouselDetailInterface> = ({
+  title,
   data,
   filterFn,
 }) => {
@@ -22,44 +22,36 @@ const CarouselDetail: React.FC<CarouselDetailInterface> = ({
 
   return (
     <div className="space-y-2">
-      <h2 className="font-semibold text-2xl">Limited Edition</h2>
+      <aside className="flex justify-between items-center">
+        <h2 className="font-semibold text-2xl">{title}</h2>
+        <button>See All</button>
+      </aside>
       <Carousel>
         <CarouselContent>
           {filtered.map(
             ({ thumbnail, name, brand, rating, discount, price }, index) => (
               <CarouselItem
                 key={index}
-                className="basis-1/5 relative overflow-hidden"
+                className="basis-1/2 md:basis-2/5 lg:basis-1/5 relative overflow-hidden"
               >
-                <div className="h-4/5 w-auto">
+                <div className="aspect-[3/2] w-full">
                   <img
                     src={thumbnail}
                     alt={name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover bg-[var(--frame-theme)]"
                   />
                 </div>
 
-                {/* Hover Effect */}
-                <div
-                  className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20
-                  transition-all duration-300 flex items-center justify-center gap-4 opacity-0
-                  group-hover:opacity-100"
-                >
-                  <button className="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 hover:scale-110 transition-all">
-                    <FaCartPlus className="text-gray-800" />
-                  </button>
-                  <button className="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 hover:scale-110 transition-all">
-                    <FaRegHeart className="text-gray-800" />
-                  </button>
-                  <button className="p-2 bg-white bg-opacity-80 rounded-full hover:bg-opacity-100 hover:scale-110 transition-all">
-                    <TbListDetails className="text-gray-800" />
-                  </button>
+                <div className="custom-scrollbar">
+                  <h2 className="text-md text-gray-500 font-medium">{brand}</h2>
+                  <h2 className="text-xl font-semibold truncate whitespace-nowrap overflow-hidden">
+                    {name}
+                  </h2>
+                  <p>⭐ {rating}</p>
+                  <p className="font-semibold text-lg">
+                    ${(price - price * discount).toFixed(2)}
+                  </p>
                 </div>
-
-                <h2 className="text-md text-gray-500 font-medium">{brand}</h2>
-                <h2 className="text-xl font-semibold">{name}</h2>
-                <p>Rating: {rating} ⭐</p>
-                <p className="font-semibold text-lg">${price}</p>
 
                 {/* Overlay */}
                 <div
@@ -72,8 +64,8 @@ const CarouselDetail: React.FC<CarouselDetailInterface> = ({
             )
           )}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="text-black" />
+        <CarouselNext className="text-black" />
       </Carousel>
     </div>
   );

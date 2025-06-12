@@ -37,7 +37,7 @@ const App: React.FC = () => {
         </aside>
       </nav>
 
-      <main className="lg:px-36">
+      <main className="md:px-8 lg:px-36">
         <Outlet />
       </main>
 
