@@ -35,7 +35,7 @@
   --bg-theme: #502f4c;
   --nav-theme: #2f6690;
   --renav-theme: #69aadf;
-  --frame-theme: #5d717e;
+  --frame-theme: #73b6e9;
   --retext-theme: #f6f6f6;
   --switch-theme: #cbf3f0;
 }
@@ -70,7 +70,7 @@
   width: 100%;
 }
 
-/* ? Scrollbar */
+/* ? Scrollbar Vertical */
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #888 transparent;
@@ -92,6 +92,39 @@
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: #555;
+}
+
+/* ? Scrollbar Horizontal */
+.horizontal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}
+
+.horizontal-scrollbar::-webkit-scrollbar {
+  height: 6px;
+}
+
+.horizontal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.horizontal-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.horizontal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+/* ? Hide Scroll-Bar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* ! Shadcn ui */

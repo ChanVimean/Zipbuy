@@ -1,4 +1,3 @@
-import CarouselDetail from "@/components/CarouselDetail";
 import {
   Carousel,
   CarouselContent,
@@ -7,15 +6,20 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import useAPI from "@/hook/useAPI";
-import { type BaseProduct, type Laptops } from "@/types/Product";
+import {
+  type BaseProduct,
+  type Laptops,
+  CategoriesList,
+} from "@/types/Product";
 import type { JSX } from "react";
-import { FaGuilded, FaQuestion } from "react-icons/fa";
-import { RiCustomerService2Line } from "react-icons/ri";
+import { FaBoxOpen } from "react-icons/fa";
+import { MdDiscount } from "react-icons/md";
 
 type MiniSectionType = {
   title: string;
+  subtitle: string;
+  text: string;
   icon: JSX.Element;
-  link: string;
 };
 
 const Home = () => {
@@ -23,9 +27,18 @@ const Home = () => {
   const [laptops, laptopLoading, laptopError] = useAPI<Laptops>("laptops");
 
   const miniSections: MiniSectionType[] = [
-    { title: "About Us", icon: <FaQuestion />, link: "" },
-    { title: "Services", icon: <RiCustomerService2Line />, link: "" },
-    { title: "Guild", icon: <FaGuilded />, link: "" },
+    {
+      title: "+200$",
+      subtitle: "Free Shipping",
+      text: "Spend more than 200$ to get free shipping anywhere!",
+      icon: <FaBoxOpen />,
+    },
+    {
+      title: "-30%",
+      subtitle: "Sign up",
+      text: "Sign up to get 30% discount",
+      icon: <MdDiscount />,
+    },
   ];
 
   if (laptopLoading) return <div>Loading...</div>;
@@ -40,7 +53,7 @@ const Home = () => {
   return (
     <div className="grid py-2 md:py-8 gap-8 w-full">
       {/* Top Row */}
-      <section className="lg:h-[500px] overflow-hidden">
+      <section className="lg:h-[500px] rounded-lg overflow-hidden">
         <img
           src={
             "https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?cs=srgb&dl=pexels-pixabay-356056.jpg&fm=jpg"
@@ -51,68 +64,77 @@ const Home = () => {
       </section>
 
       {/* Mini Pages */}
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 my-16 overflow-hidden">
-        {miniSections.map((section, index) => (
-          <a
+      <section className="flex justify-between gap-8 mb-8 overflow-hidden">
+        {miniSections.map((sect, index) => (
+          <aside
             key={index}
-            href={section.link}
-            className="flex justify-center items-center col-span-1 py-20 font-bold text-3xl bg-[var(--frame-theme)] space-x-6"
+            className="w-full flex justify-between bg-[var(--frame-theme)] rounded-lg px-6 py-8 gap-12"
           >
-            <span className="text-4xl">{section.icon}</span>
-            <span>{section.title}</span>
-          </a>
+            <div className="w-1/3 text-center space-y-2">
+              <h3 className="text-lg font-medium">{sect.subtitle}</h3>
+              <h1 className="font-semibold text-4xl">{sect.title}</h1>
+            </div>
+            <div className="w-1/3 flex items-center">
+              <p>{sect.text}</p>
+            </div>
+            <div className="w-1/3 flex items-center justify-center text-6xl">
+              {sect.icon}
+            </div>
+          </aside>
         ))}
       </section>
 
-      {/* Trend */}
-      <section className="flex items-center justify-center">
-        <Carousel opts={{ slidesToScroll: 1.5 }} className="md:w-[95%]">
+      {/* Categories Carousel */}
+      <section className="border-2 shadow-sm rounded-lg py-4 overflow-hidden">
+        <Carousel>
           <CarouselContent>
-            {topRated.map((rate, index) => (
+            {CategoriesList.map((category, index) => (
               <CarouselItem
                 key={index}
-                className="basic-1 md:basis-1/3 lg:basis-1/4 snap-start relative overflow-hidden"
+                className="basis-1/6 flex items-center justify-center"
               >
-                <img
-                  src={rate.thumbnail}
-                  alt={rate.name}
-                  className="w-full h-full object-cover"
-                />
-                <div
-                  className="absolute w-5/6 z-10 bottom-2 left-1/2 -translate-x-1/2 bg-black/60
-                    text-[var(--retext-theme)] px-2 py-1 rounded font-semibold text-lg text-center"
-                >
-                  <h3>{rate.name}</h3>
+                <div className="font-medium text-2xl">
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:flex text-black" />
-          <CarouselNext className="hidden md:flex text-black" />
+        </Carousel>
+      </section>
+
+      {/* Trend */}
+      <section className="flex flex-col items-center justify-center overflow-hidden">
+        <Carousel className="w-11/12 space-y-4">
+          <h1 className="font-semibold text-2xl">Trending</h1>
+          <CarouselContent>
+            {topRated.map((rate, index) => (
+              <CarouselItem
+                key={index}
+                className="basis-1/3 md:basis-1/3 lg:basis-1/6"
+              >
+                <div className="relative w-full h-[150px] md:h-[200px]">
+                  <img
+                    src={rate.thumbnail}
+                    alt={rate.name}
+                    className="w-full h-full object-cover object-center"
+                  />
+                  <aside
+                    className="absolute w-5/6 z-10 bottom-2 left-1/2 -translate-x-1/2 bg-black/60
+                      text-[var(--retext-theme)] px-2 py-1 rounded font-semibold text-lg text-center"
+                  >
+                    <h3>{rate.name}</h3>
+                  </aside>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+
+          <CarouselPrevious />
+          <CarouselNext />
         </Carousel>
       </section>
 
       {/* Limited Edition */}
-      <section className="flex justify-center items-center mt-16">
-        <div className="w-[95%]">
-          <CarouselDetail
-            title="Limited Edition"
-            data={data}
-            filterFn={(item) => item.limited === true && item.discount > 0}
-          />
-        </div>
-      </section>
-
-      {/* Top Rate */}
-      {/* <section className="flex justify-center items-center">
-        <div className="w-[95%]">
-          <CarouselDetail
-            title="Top Rate"
-            data={data}
-            filterFn={(item) => item.available === true && item.rating >= 7}
-          />
-        </div>
-      </section> */}
     </div>
   );
 };
