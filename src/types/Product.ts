@@ -16,6 +16,7 @@ export type Categories = (typeof CategoriesList)[number];
 export interface BaseProduct {
   id: number;
   brand: string;
+  brandLogo: string;
   name: string;
   categories: Categories;
   price: number;
