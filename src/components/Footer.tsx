@@ -108,7 +108,7 @@ const Footer = () => {
           </section>
         </article>
         <article className="text-center space-y-4">
-          <h1 className="font-semibold text-2xl">Reacah Us</h1>
+          <h1 className="font-semibold text-2xl">Reach Us</h1>
           <ul>
             {reachUs.map((reach, index) => (
               <li

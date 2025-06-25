@@ -6,11 +6,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import useAPI from "@/hook/useAPI";
-import {
-  type BaseProduct,
-  type Laptops,
-  CategoriesList,
-} from "@/types/Product";
+import { type BaseProduct, type Laptops } from "@/types/Product";
 import type { JSX } from "react";
 import { FaBoxOpen } from "react-icons/fa";
 import { MdDiscount } from "react-icons/md";
@@ -84,18 +80,20 @@ const Home = () => {
         ))}
       </section>
 
-      {/* Categories Carousel */}
-      <section className="border-2 shadow-sm rounded-lg py-4 overflow-hidden">
+      {/* Brand Collection Carousel */}
+      <section className="border-2 shadow-sm rounded-lg py-4 bg-blue-200 overflow-hidden">
         <Carousel>
           <CarouselContent>
-            {CategoriesList.map((category, index) => (
+            {data.map(({ brand, brandLogo }, index) => (
               <CarouselItem
                 key={index}
-                className="basis-1/6 flex items-center justify-center"
+                className="basis-1/12 flex items-center justify-center"
               >
-                <div className="font-medium text-2xl">
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </div>
+                <img
+                  src={brandLogo}
+                  alt={brand}
+                  className="h-16 w-auto object-cover"
+                />
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -104,8 +102,10 @@ const Home = () => {
 
       {/* Trend */}
       <section className="flex flex-col items-center justify-center overflow-hidden">
-        <Carousel className="w-11/12 space-y-4">
+        <div className="w-full flex items-start">
           <h1 className="font-semibold text-2xl">Trending</h1>
+        </div>
+        <Carousel className="w-11/12 space-y-4">
           <CarouselContent>
             {topRated.map((rate, index) => (
               <CarouselItem
