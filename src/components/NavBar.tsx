@@ -27,8 +27,6 @@ const NavBar: React.FC = () => {
     { title: "Home", path: "/" },
     { title: "Categories", path: "/Categories" },
     { title: "Product", path: "/Product" },
-    { title: "Build", path: "/Build" },
-    { title: "Custom", path: "/Custom" },
   ];
 
   const icons = [<FaBell />, <FaShoppingCart />];
