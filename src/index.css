@@ -14,11 +14,12 @@
 /* TODO Custom CSS */
 :root {
   --text-theme: #2b2b2b;
+  --retext-theme: #fef9ff;
+  --textLight-theme: #fef9ff;
+  --textDark-theme: #2b2b2b;
   --bg-theme: #f6f6f6;
   --nav-theme: #90ddf0;
-  --renav-theme: #73b6e9;
   --frame-theme: #d4c2fc;
-  --retext-theme: #fef9ff;
   --switch-theme: #0d1321;
   --sidebar: hsl(0 0% 98%);
   --sidebar-foreground: hsl(240 5.3% 26.1%);
@@ -32,11 +33,12 @@
 
 .dark-theme {
   --text-theme: #fef9ff;
-  --bg-theme: #502f4c;
-  --nav-theme: #2f6690;
-  --renav-theme: #69aadf;
-  --frame-theme: #bfdbf7;
   --retext-theme: #2b2b2b;
+  --textLight-theme: #fef9ff;
+  --textDark-theme: #2b2b2b;
+  --bg-theme: #502f4c;
+  --nav-theme: #669bbc;
+  --frame-theme: #bfdbf7;
   --switch-theme: #cbf3f0;
 }
 

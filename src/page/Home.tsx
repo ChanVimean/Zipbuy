@@ -10,6 +10,7 @@ import { FaBoxOpen } from "react-icons/fa";
 import { MdDiscount } from "react-icons/md";
 import { FaBoltLightning } from "react-icons/fa6";
 import CustomCarousel from "@/components/CustomCarousel";
+import Banners from "@/components/Banners";
 
 type MiniSectionType = {
   title: string;
@@ -49,7 +50,8 @@ const Home = () => {
     return unique.sort((a, b) => a.brand.localeCompare(b.brand));
   }, [data]);
 
-  const newReleaseFilter = (item: BaseProduct) => item.rating >= 7 && item.available;
+  const newReleaseFilter = (item: BaseProduct) =>
+    item.rating >= 7 && item.available;
 
   if (laptopLoading) return <div>Loading...</div>;
   if (laptopError) return <div>{laptopError}</div>;
@@ -62,15 +64,10 @@ const Home = () => {
     <div className="grid md:py-8 w-full py-2 px-2 md:p-4 lg:px-0 lg:py-8 gap-4 md:gap-8">
       {/* Top Row */}
       <section>
-        <div className="h-[200px] md:h-[350px] lg:h-[500px] rounded-sm md:rounded-lg overflow-hidden">
-          <img
-            src={
-              "https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?cs=srgb&dl=pexels-pixabay-356056.jpg&fm=jpg"
-            }
-            alt="Top Laptop"
-            className="w-full h-full object-cover object-center"
-          />
-        </div>
+        <Banners
+          src="https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?cs=srgb&dl=pexels-pixabay-356056.jpg&fm=jpg"
+          alt="Home Banner"
+        />
       </section>
 
       {/* Mini Pages */}
@@ -192,7 +189,7 @@ const Home = () => {
       {/* Brand Carousel */}
       <section className="space-y-2 overflow-hidden">
         <h2 className="font-semibold text-lg md:text-2xl">Categories</h2>
-        <Carousel className="shadow-sm rounded-lg py-4 bg-[var(--frame-theme)]">
+        <Carousel className="shadow-sm rounded-lg py-4 bg-[var(--frame-theme)] text-slate-950">
           <CarouselContent>
             {uniqueBrand.map(({ brand, brandLogo }, index) => (
               <CarouselItem
@@ -217,9 +214,14 @@ const Home = () => {
 
       {/* Carousel Preview */}
       <section className="space-y-4 overflow-hidden">
-        <CustomCarousel title="New Release" items={data} filterCondition={newReleaseFilter} />
+        <CustomCarousel
+          title="New Release"
+          items={data}
+          filterCondition={newReleaseFilter}
+        />
         <div className="inline-block w-full text-center">
-          <button className="py-2 px-6 rounded-md bg-blue-400 font-medium text-lg text-[var(--retext-theme)]
+          <button
+            className="py-2 px-6 rounded-md bg-blue-400 font-medium text-lg text-[var(--retext-theme)]
             cursor-pointer"
           >
             See more

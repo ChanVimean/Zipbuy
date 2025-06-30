@@ -21,14 +21,14 @@ const CustomCarousel: React.FC<CustomCarouselProps> = ({
   const filteredItems = filterCondition ? items.filter(filterCondition) : items;
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 rounded-md overflow-hidden">
       <h2 className="font-semibold text-lg md:text-2xl">{title}</h2>
 
       <Carousel className="flex items-center space-x-2">
-        <CarouselPrevious className="static" />
+        <CarouselPrevious className="static text-slate-900" />
         <CarouselContent>
           {filteredItems.map((item, index) => (
-            <CarouselItem key={index} className="basis-1/4 lg:basis-1/5">
+            <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/5">
               <div className="relative">
                 <img
                   src={item.thumbnail}
@@ -45,7 +45,7 @@ const CustomCarousel: React.FC<CustomCarouselProps> = ({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselNext className="static" />
+        <CarouselNext className="static text-slate-950" />
       </Carousel>
     </div>
   );

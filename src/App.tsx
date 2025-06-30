@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import Header from "./components/Header";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./hook/redux";
 import { loadTheme } from "./context/slices/themeSlice";
@@ -30,7 +29,6 @@ const App: React.FC = () => {
   return (
     <div className="relative font-poppins bg-[var(--bg-theme)] text-[var(--text-theme)]">
       <nav className="fixed-top">
-        <Header />
         <NavBar />
         <aside className="fixed lg:hidden w-full bottom-0 z-50">
           <BottomBar />
