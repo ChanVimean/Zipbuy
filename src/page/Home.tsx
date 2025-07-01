@@ -4,7 +4,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import useAPI from "@/hook/useAPI";
-import { type BaseProduct, type Laptops } from "@/types/Product";
+import { type BaseProduct } from "@/types/Product";
 import { useMemo, type JSX } from "react";
 import { FaBoxOpen } from "react-icons/fa";
 import { MdDiscount } from "react-icons/md";
@@ -21,7 +21,6 @@ type MiniSectionType = {
 
 const Home = () => {
   const [data, dataLoading, dataError] = useAPI<BaseProduct>("all");
-  const [laptops, laptopLoading, laptopError] = useAPI<Laptops>("laptops");
 
   const miniSections: MiniSectionType[] = [
     {
@@ -53,12 +52,8 @@ const Home = () => {
   const newReleaseFilter = (item: BaseProduct) =>
     item.rating >= 7 && item.available;
 
-  if (laptopLoading) return <div>Loading...</div>;
-  if (laptopError) return <div>{laptopError}</div>;
-  if (laptops.length === 0) return <div>No laptops available</div>;
-
-  if (dataLoading) return <div>Loading</div>;
-  if (dataError) return <div>{dataError}</div>;
+  // if (dataLoading) return <div>Loading</div>;
+  // if (dataError) return <div>{dataError}</div>;
 
   return (
     <div className="grid md:py-8 w-full py-2 px-2 md:p-4 lg:px-0 lg:py-8 gap-4 md:gap-8">
