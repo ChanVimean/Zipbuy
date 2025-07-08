@@ -1,13 +1,10 @@
 import Banners from "@/components/Banners";
-import LineClampText from "@/components/LineClampText";
+import ProductCard from "@/components/ProductCard";
 import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,14 +13,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useAPI from "@/hook/useAPI";
 import type { BaseProduct } from "@/types/Product";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
 
 const Product = () => {
-  const [data, dataLoading, dataError] = useAPI<BaseProduct>("all");
+  const [data] = useAPI<BaseProduct>("all");
   const bannerBtn = () => {};
 
+  const limitedEdition = data.filter((item) => item.limited === true);
+
+  const weekly = data.filter((item) => item.rating >= 7);
+
   return (
-    <div className="py-2 px-2 md:p-4 lg:px-0 lg:py-8 gap-4 md:gap-8">
+    <div className="py-2 px-2 md:p-4 lg:px-0 lg:py-8 space-y-4 md:space-y-6 lg:space-y-8">
       {/* Banner */}
       <section>
         <Banners
@@ -36,6 +37,28 @@ const Product = () => {
           btnOnClick={bannerBtn}
           titleColor="light"
         />
+      </section>
+
+      {/* Limited Edition */}
+      <section className="w-full">
+        <ProductCard title="Limited Edition" data={limitedEdition} />
+      </section>
+
+      {/* Weekly Products */}
+      <section>
+        <Carousel>
+          <CarouselContent>
+            <CarouselItem>
+              <ProductCard
+                title="Weekly Products"
+                data={weekly}
+                gridbox="carousel"
+                titleLines={1}
+                descLines={1}
+              />
+            </CarouselItem>
+          </CarouselContent>
+        </Carousel>
       </section>
 
       {/* Filters */}
@@ -86,44 +109,17 @@ const Product = () => {
         </aside>
       </section>
 
-      {/* Products */}
-      <section className="flex flex-wrap justify-between gap-10">
-        {data.map((card, index) => (
-          <Card
-            key={index}
-            className="w-full sm:w-[48%] md:w-[31%] lg:w-[23%] flex flex-col pt-0"
-          >
-            <aside className="w-full h-48 overflow-hidden rounded-b-lg">
-              <img
-                src={card.thumbnail}
-                alt={card.name}
-                className="w-full h-full object-cover object-center"
-              />
-            </aside>
-            <CardHeader className="flex justify-between items-end mt-2 px-4">
-              <span>
-                <LineClampText
-                  text={card.name}
-                  lines={1}
-                  classText="font-semibold text-2xl"
-                />
-              </span>
-              <span className="font-medium text-lg">
-                ${card.price - card.price * card.discount}
-              </span>
-            </CardHeader>
-            <CardDescription className="px-4">
-              <LineClampText text={card.desc} lines={2} />
-            </CardDescription>
-            <CardContent className="text-sm">⭐ ({card.rating})</CardContent>
-            <CardFooter>
-              <button className="rounded-full px-6 py-3 border-2 border-slate-500 shadow-sm">
-                Add to Card
-              </button>
-            </CardFooter>
-          </Card>
-        ))}
-      </section>
+      {/* Main Product Grid */}
+      <section></section>
+
+      {/* Spot light */}
+      <section></section>
+
+      {/* SEO Category Desciption */}
+      <section></section>
+
+      {/* Trust & Security - Boxes */}
+      <section></section>
     </div>
   );
 };

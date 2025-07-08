@@ -1,10 +1,11 @@
-import fetchApi from "../utils/fetchApi";
 import type { Categories } from "@/types/Product";
 import { useEffect, useState } from "react";
 
 interface Product {
   categories: Categories;
 }
+
+const LOCAL_KEY = "products";
 
 const useAPI = <T extends Product>(
   category: Categories | "all"
@@ -14,23 +15,29 @@ const useAPI = <T extends Product>(
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchCategoies = async () => {
+    const fetchFromLocalStorage = async () => {
       try {
-        const res = await fetchApi();
+        const stored = localStorage.getItem(LOCAL_KEY);
+        if (!stored) throw new Error("No local data found");
+
+        const parsed: unknown = JSON.parse(stored);
+        const allData = Array.isArray(parsed) ? (parsed as T[]) : [];
+
         const filtered =
           category === "all"
-            ? (res as T[])
-            : (res as T[]).filter((item) => item.categories === category);
+            ? allData
+            : allData.filter((item: T) => item.categories === category);
+
         setData(filtered);
       } catch (error) {
-        setError("Failed to fetch data");
         console.error("Failed to fetch data: ", error);
+        setError("Failed to fetch data");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCategoies();
+    fetchFromLocalStorage();
   }, [category]);
 
   return [data, loading, error];

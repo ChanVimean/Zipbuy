@@ -39,7 +39,7 @@ const LineClampText: React.FC<LineClampTextProps> = ({
       {text.length > 80 && (
         <button
           onClick={() => setExpended(!expended)}
-          className="text-blue-600 text-xs mt-1"
+          className="text-blue-600 text-xs mt-1 cursor-pointer"
         >
           {expended ? "Show Less" : "Show More"}
         </button>

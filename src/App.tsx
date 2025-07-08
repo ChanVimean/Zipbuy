@@ -5,11 +5,14 @@ import { useAppDispatch, useAppSelector } from "./hook/redux";
 import { loadTheme } from "./context/slices/themeSlice";
 import Footer from "./components/Footer";
 import BottomBar from "./components/BottomBar";
+import useSyncLocalData from "./hook/useSyncLocalData";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const theme = useAppSelector((state) => state.theme.theme);
   const colors = useAppSelector((state) => state.theme.colors[theme]);
+
+  useSyncLocalData();
 
   useEffect(() => {
     dispatch(loadTheme());
@@ -28,14 +31,16 @@ const App: React.FC = () => {
 
   return (
     <div className="relative font-poppins bg-[var(--bg-theme)] text-[var(--text-theme)]">
-      <nav className="fixed-top">
-        <NavBar />
+      <nav className="w-full">
+        <aside className="sticky-top top-0 z-50">
+          <NavBar />
+        </aside>
         <aside className="fixed lg:hidden w-full bottom-0 z-50">
           <BottomBar />
         </aside>
       </nav>
 
-      <main className="md:px-8 lg:px-36">
+      <main className="md:px-8 lg:px-24">
         <Outlet />
       </main>
 
