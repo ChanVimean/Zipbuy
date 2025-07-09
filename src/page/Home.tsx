@@ -20,7 +20,7 @@ type MiniSectionType = {
 };
 
 const Home = () => {
-  const [data, dataLoading, dataError] = useAPI<BaseProduct>("all");
+  const [data] = useAPI<BaseProduct>("all");
 
   const miniSections: MiniSectionType[] = [
     {
