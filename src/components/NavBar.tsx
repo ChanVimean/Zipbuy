@@ -69,14 +69,11 @@ const NavBar: React.FC = () => {
             {/* Normal link */}
             {navigation.map((nav, index) => (
               <NavigationMenuItem key={index}>
-                <NavigationMenuLink>
-                  <Link
-                    to={nav.path}
-                    className="font-semibold text-xl hover:bg-transparent
-                    focus:bg-transparent hover:text-inherit focus:text-inherit"
-                  >
-                    {nav.title}
-                  </Link>
+                <NavigationMenuLink
+                  className="font-semibold text-xl hover:bg-transparent
+                  focus:bg-transparent hover:text-inherit focus:text-inherit"
+                >
+                  <Link to={nav.path}>{nav.title}</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
             ))}
