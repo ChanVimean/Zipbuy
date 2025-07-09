@@ -69,11 +69,14 @@ const NavBar: React.FC = () => {
             {/* Normal link */}
             {navigation.map((nav, index) => (
               <NavigationMenuItem key={index}>
-                <NavigationMenuLink
-                  href={nav.path}
-                  className="font-semibold text-xl hover:bg-transparent focus:bg-transparent hover:text-inherit focus:text-inherit"
-                >
-                  {nav.title}
+                <NavigationMenuLink>
+                  <Link
+                    to={nav.path}
+                    className="font-semibold text-xl hover:bg-transparent
+                    focus:bg-transparent hover:text-inherit focus:text-inherit"
+                  >
+                    {nav.title}
+                  </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
             ))}
@@ -85,7 +88,11 @@ const NavBar: React.FC = () => {
       <section className="flex w-2/3 lg:w-1/4 items-center space-x-4">
         <div className="relative w-full">
           <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-900/50" />
-          <Input type="text" placeholder="Search" className="bg-white pl-10 pr-4 py-2" />
+          <Input
+            type="text"
+            placeholder="Search"
+            className="bg-white pl-10 pr-4 py-2"
+          />
         </div>
         <FaMicrophone className="text-xl opacity-75" />
       </section>
