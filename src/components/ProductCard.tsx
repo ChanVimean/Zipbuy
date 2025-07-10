@@ -7,7 +7,7 @@ import {
   CardHeader,
 } from "./ui/card";
 import LineClampText from "./LineClampText";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaCartPlus, FaHeart, FaRegHeart } from "react-icons/fa";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Carousel,
@@ -26,6 +26,7 @@ import {
 } from "./ui/pagination";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/context/store";
+import { IoMdMore } from "react-icons/io";
 
 interface ProductCardProps {
   title: string;
@@ -105,7 +106,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         key={index}
         className="relative flex flex-col border-2 pt-0 overflow-hidden gap-2"
       >
-        <aside className="w-full h-48 md:h-64 lg:h-80 overflow-hidden rounded-b-lg shadow-sm">
+        <aside className="w-full h-48 md:h-40 lg:h-48 overflow-hidden rounded-b-lg shadow-sm">
           <img
             src={card.thumbnail}
             alt={card.name}
@@ -130,22 +131,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <span className="text-xs">⭐ ({card.rating})</span>
           </article>
         </CardHeader>
-        <CardDescription className="px-4">
+        <CardDescription className="hidden lg:block px-4">
           <LineClampText
             text={card.desc}
             lines={descLines}
             classText="text-xs"
           />
         </CardDescription>
-        <CardFooter className="text-start mt-2">
-          <button
-            className="rounded-full border-2 border-slate-500 shadow-sm
-              px-4 py-2
-              text-xs md:text-sm lg:text-md
-              font-medium hover:font-semibold cursor-pointer duration-150 ease-in-out
-              hover:bg-gray-100 active:bg-white"
-          >
-            Add to Cart
+        <CardFooter className="flex items-center justify-between text-start mt-2">
+          <button className="w-full text-2xl cursor-pointer">
+            <FaCartPlus />
+          </button>
+
+          <button className="text-2xl lg:text-3xl cursor-pointer">
+            <IoMdMore />
           </button>
         </CardFooter>
 
@@ -174,7 +173,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <>
           <section
             ref={containerRef}
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8"
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 lg:gap-8"
           >
             {paginatedData.map((card, index) => RenderGrid(card, index))}
           </section>

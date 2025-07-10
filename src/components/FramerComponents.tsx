@@ -2,7 +2,8 @@ import type { BaseProduct } from "@/types/Product";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import LineClampText from "./LineClampText";
-import { FaPause, FaPlay } from "react-icons/fa";
+import { FaCartPlus, FaPause, FaPlay } from "react-icons/fa";
+import { FaCircleInfo } from "react-icons/fa6";
 
 interface FramerAutoSliderProps {
   data: BaseProduct[];
@@ -18,9 +19,9 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isAutoScroll, setIsAutoScroll] = useState<boolean>(autoScroll);
   const variants = {
-    initial: { opacity: 0, x: -40 },
-    animate: { opacity: 1, x: 0, transition: { duration: 0.6 } },
-    exit: { opacity: 0, x: 40, transition: { duration: 0.6 } },
+    initial: { opacity: 0, x: -40, transition: { duration: 0.4 } },
+    animate: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+    exit: { opacity: 0, x: 40, transition: { duration: 0.3 } },
   };
 
   const toggleAutoPlay = () => {
@@ -63,9 +64,29 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
             p-6 lg:p-12"
         >
           <article className="space-y-3">
-            <h1 className="text-3xl font-bold">{current.name}</h1>
-            <h2 className="text-2xl font-semibold">{current.brand}</h2>
-            <div>
+            <motion.h1
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-3xl font-bold"
+            >
+              {current.name}
+            </motion.h1>
+
+            <motion.h2
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1.0, delay: 0.3 }}
+              className="text-2xl font-semibold"
+            >
+              {current.brand}
+            </motion.h2>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1.0, delay: 0.5 }}
+            >
               <LineClampText
                 text={current.desc}
                 classText="text-white/70 hidden lg:block"
@@ -76,8 +97,22 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
                 classText="text-white/70 block lg:hidden"
                 lines={2}
               />
-            </div>
-            <h3 className="text-xl font-bold">${current.price}</h3>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1.2, delay: 0.7 }}
+              className="flex items-center space-x-4"
+            >
+              <h3 className="text-xl font-bold">${current.price}</h3>
+              <button className="text-2xl cursor-pointer">
+                <FaCartPlus />
+              </button>
+              <button className="text-2xl cursor-pointer">
+                <FaCircleInfo />
+              </button>
+            </motion.div>
           </article>
 
           <aside className="flex justify-center lg:justify-end">
@@ -90,10 +125,15 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
         </motion.div>
       </AnimatePresence>
 
-      <aside className="absolute border py-2 px-4 top-4 left-4">
+      {/* Auto Scroll Controller */}
+      <aside
+        className="absolute border py-2 px-4 text-xs md:text-sm
+          backdrop-blur-xs bg-white/20
+          top-4 right-4 lg:right-auto lg:left-4"
+      >
         <button
           onClick={toggleAutoPlay}
-          className="flex items-center space-x-4 cursor-pointer"
+          className="flex items-center space-x-2 md:space-x-4 cursor-pointer"
         >
           {isAutoScroll ? <FaPause /> : <FaPlay />}
           <span>{isAutoScroll ? "Pause" : "Play"}</span>

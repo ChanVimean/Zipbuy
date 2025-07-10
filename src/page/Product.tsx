@@ -122,12 +122,6 @@ const Product = () => {
       <section>
         <FramerAutoSlider data={spotlights} delay={3000} autoScroll />
       </section>
-
-      {/* SEO Category Desciption */}
-      <section></section>
-
-      {/* Trust & Security - Boxes */}
-      <section></section>
     </div>
   );
 };
