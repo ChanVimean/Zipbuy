@@ -2,7 +2,7 @@ import { useState } from "react";
 
 interface LineClampTextProps {
   text: string;
-  lines?: 1 | 2 | 3 | 4 | 5;
+  lines?: 0 | 1 | 2 | 3 | 4 | 5;
   classText?: string;
 }
 
@@ -14,7 +14,9 @@ const LineClampText: React.FC<LineClampTextProps> = ({
   const [expended, setExpended] = useState<boolean>(false);
 
   const lineClampClass = !expended
-    ? lines === 1
+    ? lines === 0
+      ? "line-clamp-0"
+      : lines === 1
       ? "line-clamp-1"
       : lines === 2
       ? "line-clamp-2"
@@ -36,7 +38,7 @@ const LineClampText: React.FC<LineClampTextProps> = ({
       >
         {text}
       </p>
-      {text.length > 80 && (
+      {text.length > 80 && lines !== 0 && (
         <button
           onClick={() => setExpended(!expended)}
           className="text-blue-600 text-xs mt-1 cursor-pointer"

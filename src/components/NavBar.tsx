@@ -70,6 +70,7 @@ const NavBar: React.FC = () => {
             {navigation.map((nav, index) => (
               <NavigationMenuItem key={index}>
                 <NavigationMenuLink
+                  asChild
                   className="font-semibold text-xl hover:bg-transparent
                   focus:bg-transparent hover:text-inherit focus:text-inherit"
                 >
@@ -95,7 +96,7 @@ const NavBar: React.FC = () => {
       </section>
 
       {/* Icons & Profile */}
-      <section className="hidden md:flex items-center justify-between space-x-4">
+      <section className="hidden lg:flex items-center justify-between space-x-4">
         <ul className="flex h-full items-center space-x-4">
           {icons.map((link, index) => (
             <button key={index} className="text-2xl">

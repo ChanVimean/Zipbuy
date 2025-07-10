@@ -1,4 +1,5 @@
 import Banners from "@/components/Banners";
+import { FramerAutoSlider } from "@/components/FramerComponents";
 import ProductCard from "@/components/ProductCard";
 import {
   DropdownMenu,
@@ -21,10 +22,10 @@ const Product = () => {
 
   const weekly = data.filter((item) => item.rating >= 7);
 
-  // const spotlight = data.filter(
-  //   (item) =>
-  //     item.limited === true && item.rating >= 8 && item.available === true
-  // );
+  const spotlights = data.filter(
+    (item) =>
+      item.limited === true && item.rating >= 8 && item.available === true
+  );
 
   return (
     <div className="py-2 px-2 md:p-4 lg:px-0 lg:py-8 space-y-6 md:space-y-12 lg:space-y-24">
@@ -118,19 +119,8 @@ const Product = () => {
       </section>
 
       {/* Spot light */}
-      <section className="flex items-center justify-between bg-orange-400 py-16 px-24">
-        <article>
-          <h1>Title</h1>
-          <p>Lorem ipsum dolor sit amet.</p>
-          <h3>Price</h3>
-        </article>
-        <aside>
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8d23e-Edo1N6lpv-XA9aN3h9GUA-EKKN56w&s"
-            alt=""
-            className=""
-          />
-        </aside>
+      <section>
+        <FramerAutoSlider data={spotlights} delay={3000} autoScroll />
       </section>
 
       {/* SEO Category Desciption */}
