@@ -15,12 +15,12 @@ import {
 } from "@/types/Product";
 import { useState } from "react";
 import { FaSortAmountDownAlt, FaSortAmountUpAlt } from "react-icons/fa";
-import { IoIosArrowDown } from "react-icons/io";
+import { BiSolidCategory } from "react-icons/bi";
+import { IoTrashBin } from "react-icons/io5";
 
 const Product = () => {
   const [data] = useAPI<BaseProduct>("all");
   const bannerBtn = () => {};
-  const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false);
   const [isSortOpen, setIsSortOpen] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedSort, setSelectedSort] = useState<string | null>(null);
@@ -109,23 +109,19 @@ const Product = () => {
 
       {/* Main Product Grid & Filters */}
       <section className="space-y-4">
-        <aside className="flex justify-between items-center">
-          <h1 className="font-semibold text-lg md:text-xl lg:text-2xl">
-            Products
-          </h1>
+        <h1 className="font-semibold text-lg md:text-xl lg:text-2xl">
+          Products
+        </h1>
+
+        <aside className="flex items-center space-x-4">
+          <h3 className="font-medium text-2xl">Filter</h3>
 
           {/* Filter and Sort Options */}
           <div className="flex items-center space-x-4">
-            <DropdownMenu onOpenChange={(open) => setIsCategoryOpen(open)}>
-              <DropdownMenuTrigger className="flex items-center py-2 px-4 overflow-hidden space-x-2 font-semibold">
-                <h3 className="text-sm md:text-md lg:text-lg">Categories</h3>
-                <span
-                  className={`text-xl transform transition-transform duration-300 ${
-                    isCategoryOpen ? "rotate-180" : "rotate-0"
-                  }`}
-                >
-                  <IoIosArrowDown />
-                </span>
+            {/* Category */}
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center overflow-hidden space-x-2 font-semibold">
+                <BiSolidCategory className="text-2xl cursor-pointer" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {CategoriesList.slice()
@@ -144,12 +140,12 @@ const Product = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
+            {/* Sort */}
             <DropdownMenu onOpenChange={(open) => setIsSortOpen(open)}>
               <DropdownMenuTrigger className="flex items-center space-x-2">
-                <span className="">
+                <span className="text-2xl cursor-pointer">
                   {isSortOpen ? <FaSortAmountDownAlt /> : <FaSortAmountUpAlt />}
                 </span>
-                <span>Sort By</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {sortOptions.map((option, index) => (
@@ -163,13 +159,16 @@ const Product = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
+            {/* Clear */}
             <DropdownMenu>
-              <DropdownMenuTrigger>
-                
+              <DropdownMenuTrigger
+                onClick={() => {
+                  setSelectedCategory(null);
+                  setSelectedSort(null);
+                }}
+              >
+                <IoTrashBin className="text-2xl cursor-pointer" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem></DropdownMenuItem>
-              </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </aside>
