@@ -29,21 +29,23 @@ import type { RootState } from "@/context/store";
 import { IoMdMore } from "react-icons/io";
 
 interface ProductCardProps {
-  title: string;
+  title?: string;
   data: BaseProduct[];
   gridbox?: "grid" | "carousel";
   titleLines?: 1 | 2 | 3 | 4 | 5;
   descLines?: 1 | 2 | 3 | 4 | 5;
   pagination?: boolean;
+  rows?: number;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
-  title,
+  title = "",
   data,
   gridbox = "grid",
   titleLines = 1,
   descLines = 2,
   pagination = false,
+  rows = 3,
 }) => {
   const [favorite, setFavorite] = useState<Record<number, boolean>>({});
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,24 +57,24 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   useEffect(() => {
     const updateItemsPerPage = () => {
+      if (!(gridbox === "grid" && pagination)) return;
       if (!containerRef.current) return;
 
       const width = window.innerWidth;
       let cols = 2; // default
-      if (width >= 1024) cols = 4;
+
+      if (width >= 1024) cols = 6;
       else if (width >= 768) cols = 3;
 
-      const rows = 3; // you said you want 3 rows
-      setItemsPerPage(cols * rows);
+      const rowCount = Math.max(1, rows);
+      setItemsPerPage(cols * rowCount);
     };
 
     updateItemsPerPage(); // on mount
     window.addEventListener("resize", updateItemsPerPage);
 
-    return () => {
-      window.removeEventListener("resize", updateItemsPerPage);
-    };
-  }, []);
+    return () => window.removeEventListener("resize", updateItemsPerPage);
+  }, [gridbox, pagination, rows]);
 
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -106,11 +108,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
         key={index}
         className="relative flex flex-col border-2 pt-0 overflow-hidden gap-2"
       >
-        <aside className="w-full h-48 md:h-40 lg:h-48 overflow-hidden rounded-b-lg shadow-sm">
+        <aside className="w-full overflow-hidden rounded-b-lg shadow-sm">
           <img
             src={card.thumbnail}
             alt={card.name}
-            className="w-full h-full object-cover object-center"
+            className="w-full h-auto object-cover object-center"
           />
         </aside>
         <CardHeader className="w-full flex flex-col justify-between text-start space-x-2 mt-2 px-4">
@@ -170,12 +172,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <h1 className="font-semibold text-lg md:text-xl lg:text-2xl">{title}</h1>
 
       {gridbox === "grid" ? (
-        <>
-          <section
-            ref={containerRef}
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 lg:gap-8"
-          >
-            {paginatedData.map((card, index) => RenderGrid(card, index))}
+        <div className="space-y-16">
+          <section>
+            <div
+              ref={containerRef}
+              className="columns-2 md:columns-3 lg:columns-6 gap-4 mx-auto"
+            >
+              {paginatedData.map((card, index) => (
+                <div key={index} className="break-inside-avoid mb-4">
+                  {RenderGrid(card, index)}
+                </div>
+              ))}
+            </div>
           </section>
 
           {pagination && totalPages > 1 && (
@@ -244,7 +252,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </PaginationContent>
             </Pagination>
           )}
-        </>
+        </div>
       ) : (
         <Carousel
           opts={{ align: "start" }}
