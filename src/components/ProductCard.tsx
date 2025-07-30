@@ -1,13 +1,7 @@
 import type { BaseProduct } from "@/types/Product";
-import {
-  Card,
-  CardAction,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-} from "./ui/card";
+import { Card, CardDescription, CardFooter, CardHeader } from "./ui/card";
 import LineClampText from "./LineClampText";
-import { FaCartPlus, FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaCartPlus } from "react-icons/fa";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Carousel,
@@ -47,7 +41,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   pagination = false,
   rows = 3,
 }) => {
-  const [favorite, setFavorite] = useState<Record<number, boolean>>({});
   const [currentPage, setCurrentPage] = useState(1);
 
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -88,15 +81,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       initialFavorites[index] = false;
     });
     setCurrentPage(1);
-    setFavorite(initialFavorites);
   }, [data]);
-
-  const toggleFavorite = (index: number) => {
-    setFavorite((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
-  };
 
   // ? Grid Layout
   const RenderGrid = (card: BaseProduct, index: number) => {
@@ -149,20 +134,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <IoMdMore />
           </button>
         </CardFooter>
-
-        {/* Overlay */}
-        <CardAction className="absolute z-10 right-2 top-2 md:right-3 md:top-3 lg:right-4 lg:top-4">
-          <button
-            onClick={() => toggleFavorite(index)}
-            className="bg-white rounded-full p-2 text-lg md:text-xl lg:text-2xl"
-          >
-            {favorite[index] ? (
-              <FaHeart className="text-red-500" />
-            ) : (
-              <FaRegHeart />
-            )}
-          </button>
-        </CardAction>
       </Card>
     );
   };
@@ -278,18 +249,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     classText="font-medium text-sm md:text-md lg:text-lg"
                   />
                 </h1>
-                <p className="block lg:hidden text-xs">⭐ ({card.rating})</p>
-                <div className="flex flex-col lg:flex-row justify-between items-center">
-                  <button
-                    className="rounded-full text-sm
-                      px-2 py-1 lg:px-3.5 lg:py-1.5
-                      border-2 border-slate-500 shadow-sm
-                      font-medium hover:font-semibold cursor-pointer duration-150 ease-in-out
-                      hover:bg-gray-100 active:bg-white"
-                  >
-                    Add to Cart
+                <div className="flex justify-between items-center">
+                  <button className="text-2xl md:text-3xl cursor-pointer">
+                    <FaCartPlus />
                   </button>
-                  <p className="hidden lg:block">⭐ ({card.rating})</p>
+                  <p>⭐ ({card.rating})</p>
                 </div>
               </CarouselItem>
             ))}

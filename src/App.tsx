@@ -32,7 +32,7 @@ const App: React.FC = () => {
   return (
     <div className="relative font-poppins bg-[var(--bg-theme)] text-[var(--text-theme)]">
       <nav className="w-full">
-        <aside className="sticky-top top-0 z-50">
+        <aside className="sticky-top top-0 z-50 w-full">
           <NavBar />
         </aside>
         <aside className="fixed lg:hidden w-full bottom-0 z-50">
