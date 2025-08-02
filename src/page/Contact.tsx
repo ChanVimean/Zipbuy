@@ -49,7 +49,7 @@ const Contact = () => {
               key={index}
               className="shadow-md text-center rounded-lg p-6 space-y-2 bg-white text-slate-950 overflow-hidden"
             >
-              <h2 className="flex items-center justify-center space-x-2 text-lg font-semibold">
+              <h2 className="flex items-center justify-center space-x-2 text-xl font-semibold">
                 <span>{info.icon}</span>
                 <span>{info.title}</span>
               </h2>

@@ -21,6 +21,9 @@
   --nav-theme: #90ddf0;
   --frame-theme: #d4c2fc;
   --switch-theme: #0d1321;
+  --breadcrumb-text: #2b2b2b;
+  --breadcrumb-hover: #90ddf0;
+  --breadcrumb-page: #2b2b2b;
   --sidebar: hsl(0 0% 98%);
   --sidebar-foreground: hsl(240 5.3% 26.1%);
   --sidebar-primary: hsl(240 5.9% 10%);
@@ -40,6 +43,9 @@
   --nav-theme: #669bbc;
   --frame-theme: #bfdbf7;
   --switch-theme: #cbf3f0;
+  --breadcrumb-text: #fef9ff;
+  --breadcrumb-hover: #cbf3f0;
+  --breadcrumb-page: #fef9ff;
 }
 
 /* ! Fixed Colors */

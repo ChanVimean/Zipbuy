@@ -32,7 +32,10 @@ const NavBar: React.FC = () => {
     { title: "Contact", path: "/Contact" },
   ];
 
-  const icons = [<FaBell />, <FaShoppingCart />];
+  const icons = [
+    { icon: <FaBell />, path: "" },
+    { icon: <FaShoppingCart />, path: "/Cart" },
+  ];
 
   const handleTheme = () => dispatch(toggleTheme());
 
@@ -99,9 +102,9 @@ const NavBar: React.FC = () => {
       <section className="hidden lg:flex items-center justify-between space-x-4">
         <ul className="flex h-full items-center space-x-4">
           {icons.map((link, index) => (
-            <button key={index} className="text-2xl">
-              {link}
-            </button>
+            <Link to={link.path} key={index} className="text-2xl">
+              {link.icon}
+            </Link>
           ))}
           <button onClick={handleTheme} className="text-2xl">
             {currentTheme === "light" ? <MdDarkMode /> : <MdLightMode />}

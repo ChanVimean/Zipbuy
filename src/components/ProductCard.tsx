@@ -18,9 +18,10 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "./ui/pagination";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/context/store";
 import { IoMdMore } from "react-icons/io";
+import { addToCart } from "@/context/slices/cartSlice";
 
 interface ProductCardProps {
   title?: string;
@@ -87,6 +88,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const RenderGrid = (card: BaseProduct, index: number) => {
     const price = (card.price - card.price * card.discount).toFixed(2);
     const [intPart, decimalPart] = price.split(".");
+    const dispatch = useDispatch();
+
+    const handleAddToCart = () => {
+      dispatch(
+        addToCart({
+          id: card.id,
+          name: card.name,
+          desc: card.desc,
+          thumbnail: card.thumbnail,
+          price: Number(price),
+        })
+      );
+    };
 
     return (
       <Card
@@ -126,7 +140,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
           />
         </CardDescription>
         <CardFooter className="flex items-center justify-between text-start mt-2">
-          <button className="w-full text-2xl cursor-pointer">
+          <button
+            onClick={handleAddToCart}
+            className="w-full text-2xl cursor-pointer"
+          >
             <FaCartPlus />
           </button>
 

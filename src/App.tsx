@@ -55,10 +55,13 @@ const App: React.FC = () => {
       </nav>
 
       <main className="md:px-8 lg:px-24">
-        <Breadcrumb className="mt-4 mb-6">
+        <Breadcrumb className="mt-4 mb-6 text-[var(--text-theme)]">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink asChild>
+              <BreadcrumbLink
+                asChild
+                className="text-[var(--breadcrumb-text)] hover:text-[var(--breadcrumb-hover)]"
+              >
                 <Link to="/">Home</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
@@ -75,12 +78,15 @@ const App: React.FC = () => {
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
                     {isLast ? (
-                      <BreadcrumbPage className="capitalize">
+                      <BreadcrumbPage className="font-semibold text-[var(--breadcrumb-page)] capitalize">
                         {label}
                       </BreadcrumbPage>
                     ) : (
                       <BreadcrumbLink asChild>
-                        <Link to={fullPath} className="capitalize">
+                        <Link
+                          to={fullPath}
+                          className="font-semibold text-[var(--breadcrumb-page)] capitalize"
+                        >
                           {label}
                         </Link>
                       </BreadcrumbLink>
