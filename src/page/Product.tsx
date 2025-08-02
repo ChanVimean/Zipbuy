@@ -1,4 +1,3 @@
-import Banners from "@/components/Banners";
 import { FramerAutoSlider } from "@/components/FramerComponents";
 import ProductCard from "@/components/ProductCard";
 import {
@@ -20,7 +19,6 @@ import { IoTrashBin } from "react-icons/io5";
 
 const Product = () => {
   const [data] = useAPI<BaseProduct>("all");
-  const bannerBtn = () => {};
   const [isSortOpen, setIsSortOpen] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedSort, setSelectedSort] = useState<string | null>(null);
@@ -73,29 +71,9 @@ const Product = () => {
 
   return (
     <div className="py-2 px-2 md:p-4 lg:px-0 lg:py-8 space-y-6 md:space-y-12 lg:space-y-24">
-      {/* Banner */}
+      {/* Spot light */}
       <section>
-        <Banners
-          src="https://png.pngtree.com/thumb_back/fh260/background/20220522/pngtree-ecommerce-banner-planning-segmentation-selection-image_1375247.jpg"
-          alt="Banner"
-          onMd="md:h-[200px]"
-          onLg="lg:h-[400px]"
-          title="Grab Upto 50% Off On Selected Headphone"
-          btnText="Buy Now"
-          btnOnClick={bannerBtn}
-          titleColor="light"
-        />
-      </section>
-
-      {/* Weekly Products */}
-      <section>
-        <ProductCard
-          title="Weekly Products"
-          data={weekly}
-          gridbox="carousel"
-          titleLines={1}
-          descLines={1}
-        />
+        <FramerAutoSlider data={spotlights} delay={3000} autoScroll />
       </section>
 
       {/* Limited Edition */}
@@ -183,9 +161,15 @@ const Product = () => {
         />
       </section>
 
-      {/* Spot light */}
+      {/* Weekly Products */}
       <section>
-        <FramerAutoSlider data={spotlights} delay={3000} autoScroll />
+        <ProductCard
+          title="Weekly Products"
+          data={weekly}
+          gridbox="carousel"
+          titleLines={1}
+          descLines={1}
+        />
       </section>
     </div>
   );

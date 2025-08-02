@@ -12,15 +12,16 @@ import Contact from "./page/Contact";
 interface RouterInterface {
   path: string;
   link: JSX.Element;
+  label: string;
 }
 
 const Router = () => {
   const Users: RouterInterface[] = [
-    { path: "Categories", link: <Categories /> },
-    { path: "Product", link: <Product /> },
-    { path: "Contact", link: <Contact /> },
-    { path: "Profile", link: <Profile /> },
-    { path: "Cart", link: <Cart /> },
+    { path: "Categories", link: <Categories />, label: "Categories" },
+    { path: "Product", link: <Product />, label: "Products" },
+    { path: "Contact", link: <Contact />, label: "Contact Us" },
+    { path: "Profile", link: <Profile />, label: "My Profile" },
+    { path: "Cart", link: <Cart />, label: "My Cart" },
   ];
 
   return (
