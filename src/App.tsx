@@ -15,7 +15,7 @@ import {
   BreadcrumbSeparator,
 } from "./components/ui/breadcrumb";
 import { Link } from "react-router-dom";
-import { breadcrumbMap } from "./utils/BreadcrumbMap";
+import { breadcrumbMap } from "./utils/breadcrumbMap";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
