@@ -43,11 +43,26 @@ const ProductCard: React.FC<ProductCardProps> = ({
   rows = 3,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const dispatch = useDispatch();
 
   const theme = useSelector((state: RootState) => state.theme.theme);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [itemsPerPage, setItemsPerPage] = useState(9);
+
+  const handleAddToCart = (product: BaseProduct) => {
+    const price = (product.price - product.price * product.discount).toFixed(2);
+
+    dispatch(
+      addToCart({
+        id: product.id,
+        name: product.name,
+        desc: product.desc,
+        thumbnail: product.thumbnail,
+        price: Number(price),
+      })
+    );
+  };
 
   useEffect(() => {
     const updateItemsPerPage = () => {
@@ -88,19 +103,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const RenderGrid = (card: BaseProduct, index: number) => {
     const price = (card.price - card.price * card.discount).toFixed(2);
     const [intPart, decimalPart] = price.split(".");
-    const dispatch = useDispatch();
-
-    const handleAddToCart = () => {
-      dispatch(
-        addToCart({
-          id: card.id,
-          name: card.name,
-          desc: card.desc,
-          thumbnail: card.thumbnail,
-          price: Number(price),
-        })
-      );
-    };
 
     return (
       <Card
@@ -141,7 +143,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </CardDescription>
         <CardFooter className="flex items-center justify-between text-start mt-2">
           <button
-            onClick={handleAddToCart}
+            onClick={() => handleAddToCart(card)}
             className="w-full text-2xl cursor-pointer"
           >
             <FaCartPlus />
@@ -267,7 +269,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   />
                 </h1>
                 <div className="flex justify-between items-center">
-                  <button className="text-2xl md:text-3xl cursor-pointer">
+                  <button
+                    onClick={() => handleAddToCart(card)}
+                    className="text-2xl md:text-3xl cursor-pointer"
+                  >
                     <FaCartPlus />
                   </button>
                   <p>⭐ ({card.rating})</p>
