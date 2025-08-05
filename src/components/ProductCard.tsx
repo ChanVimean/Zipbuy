@@ -60,6 +60,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         desc: product.desc,
         thumbnail: product.thumbnail,
         price: Number(price),
+        limited: product.limited
       })
     );
   };

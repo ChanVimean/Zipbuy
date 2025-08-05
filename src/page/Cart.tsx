@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart, updateQuantity } from "@/context/slices/cartSlice";
 import { FaTrashCan } from "react-icons/fa6";
 import type { RootState } from "@/context/store";
+import LineClampText from "@/components/LineClampText";
 
 const Cart = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
@@ -22,36 +23,38 @@ const Cart = () => {
     <div className="p-4 space-y-4">
       <h1 className="text-xl font-bold">My Cart</h1>
       <div className="flex justify-between gap-8 flex-wrap lg:flex-nowrap">
+        {/* Items */}
         <ul className="space-y-4 flex-1">
           {cartItems.length === 0 && <p>Your cart is empty.</p>}
           {cartItems.map((item) => (
-            <li key={item.id} className="flex gap-4 border-b pb-4">
+            <li
+              key={item.id}
+              className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-4 w-full border-b pb-4"
+            >
               <img
                 src={item.thumbnail}
                 alt={item.name}
-                className="w-24 h-24 object-cover"
+                className="w-24 h-24 object-cover rounded"
               />
 
-              <div className="flex-1">
+              <div className="space-y-1">
                 <h3 className="font-semibold">{item.name}</h3>
-                <p className="text-sm">{item.desc}</p>
-                <div className="flex gap-2 items-center mt-2">
-                  <button
-                    onClick={() => handleQtyChange(item.id, item.qty - 1)}
-                  >
-                    -
-                  </button>
-                  <p>{item.qty}</p>
-                  <button
-                    onClick={() => handleQtyChange(item.id, item.qty + 1)}
-                  >
-                    +
-                  </button>
-                </div>
-                <p className="text-sm mt-1">Limited Edition</p>
+                <LineClampText text={item.desc} lines={2} />
                 <p className="font-bold">
-                  ${(item.price * item.qty).toFixed(2)}
+                  ${(item.price - item.price * item.qty).toFixed(2)}
                 </p>
+              </div>
+
+              {item.limited && <p className="text-sm mt-1">Limited Edition</p>}
+
+              <div className="flex gap-2 items-center mt-2">
+                <button onClick={() => handleQtyChange(item.id, item.qty - 1)}>
+                  -
+                </button>
+                <p>{item.qty}</p>
+                <button onClick={() => handleQtyChange(item.id, item.qty + 1)}>
+                  +
+                </button>
               </div>
 
               <button onClick={() => dispatch(removeFromCart(item.id))}>
