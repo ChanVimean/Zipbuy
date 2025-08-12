@@ -16,6 +16,7 @@ import {
 } from "./components/ui/breadcrumb";
 import { Link } from "react-router-dom";
 import { breadcrumbMap } from "./utils/breadcrumbMap";
+import StickyNavWrapper from "./components/StickyNavWrapper";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -45,17 +46,17 @@ const App: React.FC = () => {
   return (
     <div className="relative font-poppins bg-[var(--bg-theme)] text-[var(--text-theme)]">
       <nav className="w-full">
-        <aside className="sticky-top top-0 z-50 w-full">
+        <StickyNavWrapper>
           <NavBar />
-        </aside>
+        </StickyNavWrapper>
 
         <aside className="fixed lg:hidden w-full bottom-0 z-50">
           <BottomBar />
         </aside>
       </nav>
 
-      <main className="md:px-8 lg:px-24">
-        <Breadcrumb className="mt-4 mb-6 text-[var(--text-theme)]">
+      <main className="px-2 md:px-8 lg:px-24 py-20">
+        <Breadcrumb className="text-[var(--text-theme)] my-2 lg:my-2">
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink

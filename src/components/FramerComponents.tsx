@@ -51,7 +51,7 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
   return (
     <div
       className="relative w-full h-auto lg:h-[400px] overflow-hidden rounded-lg text-white
-    bg-gradient-to-r from-pink-500 to-rose-400"
+        bg-gradient-to-r from-pink-500 to-rose-400"
     >
       <AnimatePresence mode="wait">
         <motion.div

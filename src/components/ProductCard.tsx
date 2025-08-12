@@ -60,7 +60,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         desc: product.desc,
         thumbnail: product.thumbnail,
         price: Number(price),
-        limited: product.limited
+        limited: product.limited,
       })
     );
   };
@@ -102,8 +102,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   // ? Grid Layout
   const RenderGrid = (card: BaseProduct, index: number) => {
-    const price = (card.price - card.price * card.discount).toFixed(2);
-    const [intPart, decimalPart] = price.split(".");
+    const rawPrice = card.price * (1 - card.discount);
+    const [intPart, decimalPart] = rawPrice.toFixed(2).split(".");
 
     return (
       <Card
@@ -250,37 +250,57 @@ const ProductCard: React.FC<ProductCardProps> = ({
           className="flex items-center justify-between space-x-4"
         >
           <CarouselContent>
-            {data.map((card, index) => (
-              <CarouselItem
-                key={index}
-                className="space-y-2 basis-1/3 md:basis-1/4 lg:basis-1/6 overflow-hidden"
-              >
-                <aside className="w-full h-24 md:h-36 lg:h-52 overflow-hidden rounded-sm shadow-sm">
-                  <img
-                    src={card.thumbnail}
-                    alt={card.name}
-                    className="w-full h-full object-cover"
-                  />
-                </aside>
-                <h1 className="w-full text-start">
-                  <LineClampText
-                    text={card.name}
-                    lines={1}
-                    classText="font-medium text-sm md:text-md lg:text-lg"
-                  />
-                </h1>
-                <div className="flex justify-between items-center">
-                  <button
-                    onClick={() => handleAddToCart(card)}
-                    className="text-2xl md:text-3xl cursor-pointer"
-                  >
-                    <FaCartPlus />
-                  </button>
-                  <p>⭐ ({card.rating})</p>
-                </div>
-              </CarouselItem>
-            ))}
+            {data.map((card, index) => {
+              const rawPrice = card.price * (1 - (card.discount ?? 0));
+              const [intPart, decimalPart] = rawPrice.toFixed(2).split(".");
+
+              return (
+                <CarouselItem
+                  key={index}
+                  className="space-y-2 basis-1/3 md:basis-1/4 lg:basis-1/6 overflow-hidden"
+                >
+                  <aside className="w-full h-24 md:h-36 lg:h-52 overflow-hidden rounded-sm shadow-sm">
+                    <img
+                      src={card.thumbnail}
+                      alt={card.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </aside>
+
+                  <h1 className="w-full text-start">
+                    <LineClampText
+                      text={card.name}
+                      lines={1}
+                      classText="font-medium text-sm md:text-md lg:text-lg"
+                    />
+                  </h1>
+
+                  {/* Price row */}
+                  <div className="flex justify-between items-center">
+                    <span className="font-semibold text-md md:text-lg lg:text-xl">
+                      ${intPart}
+                      <span className="text-xs relative -top-[4px] ml-0.5">
+                        .{decimalPart}
+                      </span>
+                    </span>
+                    <span className="text-xs">⭐ ({card.rating})</span>
+                  </div>
+
+                  {/* Action buttons */}
+                  <div className="flex justify-between items-center">
+                    <button
+                      onClick={() => handleAddToCart(card)}
+                      className="text-2xl md:text-3xl cursor-pointer"
+                    >
+                      <FaCartPlus />
+                    </button>
+                    <IoMdMore className="text-xl cursor-pointer" />
+                  </div>
+                </CarouselItem>
+              );
+            })}
           </CarouselContent>
+
           <CarouselPrevious className="hidden lg:flex text-slate-950" />
           <CarouselNext className="hidden lg:flex text-slate-950" />
         </Carousel>

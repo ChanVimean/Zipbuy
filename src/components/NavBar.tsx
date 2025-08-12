@@ -2,7 +2,7 @@ import { toggleTheme } from "@/context/slices/themeSlice";
 import { useAppSelector } from "@/hook/redux";
 import { FaBell, FaMicrophone, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,10 +20,13 @@ import {
 import { Input } from "./ui/input";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import type { RootState } from "@/context/store";
 
 const NavBar: React.FC = () => {
   const dispatch = useDispatch();
   const currentTheme = useAppSelector((state) => state.theme.theme);
+  const cartItem = useSelector((state: RootState) => state.cart.items);
+  const totalItem = cartItem.length;
 
   const navigation = [
     { title: "Home", path: "/" },
@@ -32,10 +35,7 @@ const NavBar: React.FC = () => {
     { title: "Contact", path: "/Contact" },
   ];
 
-  const icons = [
-    { icon: <FaBell />, path: "" },
-    { icon: <FaShoppingCart />, path: "/Cart" },
-  ];
+  const icons = [{ icon: <FaBell />, path: "" }];
 
   const handleTheme = () => dispatch(toggleTheme());
 
@@ -106,10 +106,17 @@ const NavBar: React.FC = () => {
               {link.icon}
             </Link>
           ))}
-          <button onClick={handleTheme} className="text-2xl">
+          <Link to="/Cart" className="relative text-2xl">
+            <FaShoppingCart />
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+              {totalItem}
+            </span>
+          </Link>
+          <button onClick={handleTheme} className="text-2xl cursor-pointer">
             {currentTheme === "light" ? <MdDarkMode /> : <MdLightMode />}
           </button>
         </ul>
+
         <aside>
           <DropdownMenu>
             <DropdownMenuTrigger>
