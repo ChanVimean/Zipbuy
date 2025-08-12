@@ -3,20 +3,39 @@ import { removeFromCart, updateQuantity } from "@/context/slices/cartSlice";
 import { FaTrashCan } from "react-icons/fa6";
 import type { RootState } from "@/context/store";
 import LineClampText from "@/components/LineClampText";
+import type { BaseProduct } from "@/types/Product";
 
-const Cart = () => {
-  const cartItems = useSelector((state: RootState) => state.cart.items);
+interface CartItem extends BaseProduct {
+  qty: number;
+}
+
+const Cart: React.FC = () => {
+  const cartItems = useSelector(
+    (state: RootState) => state.cart.items
+  ) as CartItem[];
   const dispatch = useDispatch();
 
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.price * item.qty,
-    0
-  );
+  const subtotal = cartItems.reduce((acc, item) => {
+    const price = Number(item.price);
+    const discount = Number(item.discount ?? 0);
+    const qty = Number(item.qty);
+
+    const discountedPrice = price - discount;
+
+    if (discountedPrice > 0 && qty > 0) {
+      return acc + discountedPrice * qty;
+    }
+    return acc;
+  }, 0);
 
   const handleQtyChange = (id: number, qty: number) => {
     if (qty >= 1) {
       dispatch(updateQuantity({ id, qty }));
     }
+  };
+
+  const getFinalPrice = (item: CartItem) => {
+    return (item.price - (item.discount ?? 0)) * item.qty;
   };
 
   return (
@@ -29,7 +48,7 @@ const Cart = () => {
           {cartItems.map((item) => (
             <li
               key={item.id}
-              className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-4 w-full border-b pb-4"
+              className="grid grid-cols-[auto_1fr_auto_auto_auto] items-center gap-4 w-full border-b pb-4"
             >
               <img
                 src={item.thumbnail}
@@ -39,10 +58,12 @@ const Cart = () => {
 
               <div className="space-y-1">
                 <h3 className="font-semibold">{item.name}</h3>
-                <LineClampText text={item.desc} lines={2} />
-                <p className="font-bold">
-                  ${(item.price - item.price * item.qty).toFixed(2)}
-                </p>
+                <LineClampText
+                  text={item.desc}
+                  lines={2}
+                  classText="text-sm break-words"
+                />
+                <p className="font-bold">${getFinalPrice(item).toFixed(2)}</p>
               </div>
 
               {item.limited && <p className="text-sm mt-1">Limited Edition</p>}
