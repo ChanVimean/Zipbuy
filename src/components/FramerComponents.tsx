@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import LineClampText from "./LineClampText";
 import { FaCartPlus, FaPause, FaPlay } from "react-icons/fa";
 import { FaCircleInfo } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/context/store";
 
 interface FramerAutoSliderProps {
   data: BaseProduct[];
@@ -18,6 +20,7 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isAutoScroll, setIsAutoScroll] = useState<boolean>(autoScroll);
+  const theme = useSelector((state: RootState) => state.theme.theme);
   const variants = {
     initial: { opacity: 0, x: -40, transition: { duration: 0.4 } },
     animate: { opacity: 1, x: 0, transition: { duration: 0.8 } },
@@ -50,8 +53,13 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
 
   return (
     <div
-      className="relative w-full h-auto lg:h-[400px] overflow-hidden rounded-lg text-white
-        bg-gradient-to-r from-pink-500 to-rose-400"
+      className={`relative w-full h-auto lg:h-[400px] overflow-hidden rounded-lg
+        bg-gradient-to-r
+        ${
+          theme === "light"
+            ? "from-blue-100 to-purple-100"
+            : "from-cyan-800 to-cyan-700"
+        }`}
     >
       <AnimatePresence mode="wait">
         <motion.div
@@ -89,12 +97,12 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
             >
               <LineClampText
                 text={current.desc}
-                classText="text-white/70 hidden lg:block"
+                classText="opacity-80 hidden lg:block"
                 lines={0}
               />
               <LineClampText
                 text={current.desc}
-                classText="text-white/70 block lg:hidden"
+                classText="text-black block lg:hidden"
                 lines={2}
               />
             </motion.div>
@@ -115,7 +123,7 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
             </motion.div>
           </article>
 
-          <aside className="flex justify-center lg:justify-end">
+          <aside className="flex justify-center lg:justify-end overflow-hidden">
             <img
               src={current.thumbnail}
               alt={current.name}

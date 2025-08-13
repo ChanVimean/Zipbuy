@@ -257,7 +257,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               return (
                 <CarouselItem
                   key={index}
-                  className="space-y-2 basis-1/3 md:basis-1/4 lg:basis-1/6 overflow-hidden"
+                  className="space-y-4 basis-1/3 md:basis-1/4 lg:basis-1/6 overflow-hidden"
                 >
                   <aside className="w-full h-24 md:h-36 lg:h-52 overflow-hidden rounded-sm shadow-sm">
                     <img
@@ -267,35 +267,38 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     />
                   </aside>
 
-                  <h1 className="w-full text-start">
-                    <LineClampText
-                      text={card.name}
-                      lines={1}
-                      classText="font-medium text-sm md:text-md lg:text-lg"
-                    />
-                  </h1>
+                  {/* Container */}
+                  <article className="space-y-2 px-2">
+                    <h1 className="w-full text-start">
+                      <LineClampText
+                        text={card.name}
+                        lines={1}
+                        classText="font-medium text-sm md:text-md lg:text-lg"
+                      />
+                    </h1>
 
-                  {/* Price row */}
-                  <div className="flex justify-between items-center">
-                    <span className="font-semibold text-md md:text-lg lg:text-xl">
-                      ${intPart}
-                      <span className="text-xs relative -top-[4px] ml-0.5">
-                        .{decimalPart}
+                    {/* Price row */}
+                    <div className="flex justify-between items-center">
+                      <span className="font-semibold text-md md:text-lg lg:text-xl">
+                        ${intPart}
+                        <span className="text-xs relative -top-[4px] ml-0.5">
+                          .{decimalPart}
+                        </span>
                       </span>
-                    </span>
-                    <span className="text-xs">⭐ ({card.rating})</span>
-                  </div>
+                      <span className="text-xs">⭐ ({card.rating})</span>
+                    </div>
 
-                  {/* Action buttons */}
-                  <div className="flex justify-between items-center">
-                    <button
-                      onClick={() => handleAddToCart(card)}
-                      className="text-2xl md:text-3xl cursor-pointer"
-                    >
-                      <FaCartPlus />
-                    </button>
-                    <IoMdMore className="text-xl cursor-pointer" />
-                  </div>
+                    {/* Action buttons */}
+                    <div className="flex justify-between items-center mt-6">
+                      <button
+                        onClick={() => handleAddToCart(card)}
+                        className="text-2xl md:text-3xl cursor-pointer"
+                      >
+                        <FaCartPlus />
+                      </button>
+                      <IoMdMore className="text-3xl cursor-pointer" />
+                    </div>
+                  </article>
                 </CarouselItem>
               );
             })}

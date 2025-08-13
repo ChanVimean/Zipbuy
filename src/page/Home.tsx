@@ -10,7 +10,9 @@ import { FaBoxOpen } from "react-icons/fa";
 import { MdDiscount } from "react-icons/md";
 import { FaBoltLightning } from "react-icons/fa6";
 import CustomCarousel from "@/components/CustomCarousel";
-import Banners from "@/components/Banners";
+import { FramerAutoSlider } from "@/components/FramerComponents";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/context/store";
 
 type MiniSectionType = {
   title: string;
@@ -21,6 +23,7 @@ type MiniSectionType = {
 
 const Home = () => {
   const [data] = useAPI<BaseProduct>("all");
+  const theme = useSelector((state: RootState) => state.theme.theme);
 
   const miniSections: MiniSectionType[] = [
     {
@@ -55,26 +58,30 @@ const Home = () => {
   // if (dataLoading) return <div>Loading</div>;
   // if (dataError) return <div>{dataError}</div>;
 
+  const spotlights = data.filter(
+    (item) =>
+      item.limited === true && item.rating >= 9 && item.available === true
+  );
+
   return (
     <div className="grid md:py-8 w-full py-2 px-2 md:p-4 lg:px-0 lg:py-8 gap-4 md:gap-8">
       {/* Top Row */}
       <section>
-        <Banners
-          src="https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?cs=srgb&dl=pexels-pixabay-356056.jpg&fm=jpg"
-          alt="Home Banner"
-        />
+        <FramerAutoSlider data={spotlights} />
       </section>
 
       {/* Mini Pages */}
-      <section className="flex flex-col lg:flex-row justify-between overflow-hidden text-slate-900 gap-4 lg:gap-8">
+      <section className="flex flex-col lg:flex-row justify-between overflow-hidden gap-4 lg:gap-8">
         {miniSections.map((sect, index) => (
           <aside
             key={index}
-            className="w-full flex justify-between bg-[var(--frame-theme)] rounded-lg
+            className={`w-full flex justify-between rounded-lg
               px-4 py-2
               md:px-0 md:py-4
               lg:px-6 lg:py-8
-              gap-6 md:gap-8 lg:gap-12"
+              gap-6 md:gap-8 lg:gap-12
+              ${theme === "light" ? "bg-blue-100" : "bg-cyan-700"}
+              `}
           >
             <div className="w-1/5 md:w-1/3 text-center space-y-2">
               <h3 className="font-medium text-sm lg:text-lg">
@@ -184,7 +191,11 @@ const Home = () => {
       {/* Brand Carousel */}
       <section className="space-y-2 overflow-hidden">
         <h2 className="font-semibold text-lg md:text-2xl">Categories</h2>
-        <Carousel className="shadow-sm rounded-lg py-4 bg-[var(--frame-theme)] text-slate-950">
+        <Carousel
+          className={`shadow-sm rounded-lg py-4 text-slate-950 ${
+            theme === "light" ? "bg-blue-100" :"bg-blue-200"
+          }`}
+        >
           <CarouselContent>
             {uniqueBrand.map(({ brand, brandLogo }, index) => (
               <CarouselItem
