@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./hook/redux";
@@ -42,6 +42,7 @@ const App: React.FC = () => {
 
   const location = useLocation();
   const pathSegments = location.pathname.split("/").filter(Boolean);
+  const params = useParams<{ category?: string; id?: string }>();
 
   return (
     <div className="relative font-poppins bg-[var(--bg-theme)] text-[var(--text-theme)]">

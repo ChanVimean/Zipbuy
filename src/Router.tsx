@@ -8,6 +8,7 @@ import Profile from "./page/Profile";
 import Cart from "./page/Cart";
 import type { JSX } from "react";
 import Contact from "./page/Contact";
+import ProductDetail from "./page/ProductDetail";
 
 interface RouterInterface {
   path: string;
@@ -22,6 +23,7 @@ const Router = () => {
     { path: "Contact", link: <Contact />, label: "Contact Us" },
     { path: "Profile", link: <Profile />, label: "My Profile" },
     { path: "Cart", link: <Cart />, label: "My Cart" },
+    { path: "Detail/:category/:id", link: <ProductDetail />, label: "Detail" }, // ! -> Require ID
   ];
 
   return (

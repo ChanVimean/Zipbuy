@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/context/store";
 import { IoMdMore } from "react-icons/io";
 import { addToCart } from "@/context/slices/cartSlice";
+import { Link } from "react-router-dom";
 
 interface ProductCardProps {
   title?: string;
@@ -106,55 +107,64 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const [intPart, decimalPart] = rawPrice.toFixed(2).split(".");
 
     return (
-      <Card
-        key={index}
-        className="relative flex flex-col border-2 pt-0 overflow-hidden gap-2"
-      >
-        <aside className="w-full overflow-hidden rounded-b-lg shadow-sm">
-          <img
-            src={card.thumbnail}
-            alt={card.name}
-            className="w-full h-auto object-cover object-center"
-          />
-        </aside>
-        <CardHeader className="w-full flex flex-col justify-between text-start space-x-2 mt-2 px-4">
-          <article>
-            <LineClampText
-              text={card.name}
-              lines={titleLines}
-              classText="font-semibold text-md md:text-lg lg:text-xl"
+      <Link to={`/Detail/${card.categories}/${card.id}`} className="block">
+        <Card
+          key={index}
+          className="relative flex flex-col border-2 pt-0 overflow-hidden gap-2"
+        >
+          <aside className="w-full overflow-hidden rounded-b-lg shadow-sm">
+            <img
+              src={card.thumbnail}
+              alt={card.name}
+              className="w-full h-auto object-cover object-center"
             />
-          </article>
-          <article className="w-full flex justify-between">
-            <span className="font-medium text-sm md:text-md lg:text-lg">
-              ${intPart}
-              <span className="text-xs relative -top-[4px] ml-0.5">
-                .{decimalPart}
+          </aside>
+          <CardHeader className="w-full flex flex-col justify-between text-start space-x-2 mt-2 px-4">
+            <article>
+              <LineClampText
+                text={card.name}
+                lines={titleLines}
+                classText="font-semibold text-md md:text-lg lg:text-xl"
+              />
+            </article>
+            <article className="w-full flex justify-between">
+              <span className="font-medium text-sm md:text-md lg:text-lg">
+                ${intPart}
+                <span className="text-xs relative -top-[4px] ml-0.5">
+                  .{decimalPart}
+                </span>
               </span>
-            </span>
-            <span className="text-xs">⭐ ({card.rating})</span>
-          </article>
-        </CardHeader>
-        <CardDescription className="hidden lg:block px-4">
-          <LineClampText
-            text={card.desc}
-            lines={descLines}
-            classText="text-xs"
-          />
-        </CardDescription>
-        <CardFooter className="flex items-center justify-between text-start mt-2">
-          <button
-            onClick={() => handleAddToCart(card)}
-            className="w-full text-2xl cursor-pointer"
-          >
-            <FaCartPlus />
-          </button>
+              <span className="text-xs">⭐ ({card.rating})</span>
+            </article>
+          </CardHeader>
+          <CardDescription className="hidden lg:block px-4">
+            <LineClampText
+              text={card.desc}
+              lines={descLines}
+              classText="text-xs"
+            />
+          </CardDescription>
+          <CardFooter className="flex items-center justify-between text-start mt-2">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleAddToCart(card);
+              }}
+              className="w-full text-2xl cursor-pointer"
+            >
+              <FaCartPlus />
+            </button>
 
-          <button className="text-2xl lg:text-3xl cursor-pointer">
-            <IoMdMore />
-          </button>
-        </CardFooter>
-      </Card>
+            <button
+              onClick={(e) => e.stopPropagation()}
+              className="text-2xl lg:text-3xl cursor-pointer"
+            >
+              <IoMdMore />
+            </button>
+          </CardFooter>
+        </Card>
+      </Link>
     );
   };
 
@@ -259,46 +269,57 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   key={index}
                   className="space-y-4 basis-1/3 md:basis-1/4 lg:basis-1/6 overflow-hidden"
                 >
-                  <aside className="w-full h-24 md:h-36 lg:h-52 overflow-hidden rounded-sm shadow-sm">
-                    <img
-                      src={card.thumbnail}
-                      alt={card.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </aside>
-
-                  {/* Container */}
-                  <article className="space-y-2 px-2">
-                    <h1 className="w-full text-start">
-                      <LineClampText
-                        text={card.name}
-                        lines={1}
-                        classText="font-medium text-sm md:text-md lg:text-lg"
+                  <Link
+                    to={`/Detail/${card.categories}/${card.id}`}
+                    className="block"
+                  >
+                    <aside className="w-full h-24 md:h-36 lg:h-52 overflow-hidden rounded-sm shadow-sm">
+                      <img
+                        src={card.thumbnail}
+                        alt={card.name}
+                        className="w-full h-full object-cover"
                       />
-                    </h1>
+                    </aside>
 
-                    {/* Price row */}
-                    <div className="flex justify-between items-center">
-                      <span className="font-semibold text-md md:text-lg lg:text-xl">
-                        ${intPart}
-                        <span className="text-xs relative -top-[4px] ml-0.5">
-                          .{decimalPart}
+                    {/* Container */}
+                    <article className="space-y-2 px-2">
+                      <h1 className="w-full text-start">
+                        <LineClampText
+                          text={card.name}
+                          lines={1}
+                          classText="font-medium text-sm md:text-md lg:text-lg"
+                        />
+                      </h1>
+
+                      {/* Price row */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-semibold text-md md:text-lg lg:text-xl">
+                          ${intPart}
+                          <span className="text-xs relative -top-[4px] ml-0.5">
+                            .{decimalPart}
+                          </span>
                         </span>
-                      </span>
-                      <span className="text-xs">⭐ ({card.rating})</span>
-                    </div>
+                        <span className="text-xs">⭐ ({card.rating})</span>
+                      </div>
 
-                    {/* Action buttons */}
-                    <div className="flex justify-between items-center mt-6">
-                      <button
-                        onClick={() => handleAddToCart(card)}
-                        className="text-2xl md:text-3xl cursor-pointer"
-                      >
-                        <FaCartPlus />
-                      </button>
-                      <IoMdMore className="text-3xl cursor-pointer" />
-                    </div>
-                  </article>
+                      {/* Action & More buttons*/}
+                      <div className="flex justify-between items-center mt-6">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleAddToCart(card);
+                          }}
+                          className="text-2xl md:text-3xl cursor-pointer"
+                        >
+                          <FaCartPlus />
+                        </button>
+                        <button className="text-3xl cursor-pointer">
+                          <IoMdMore />
+                        </button>
+                      </div>
+                    </article>
+                  </Link>
                 </CarouselItem>
               );
             })}
