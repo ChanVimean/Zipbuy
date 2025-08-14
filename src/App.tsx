@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useParams } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "./hook/redux";
 import { loadTheme } from "./context/slices/themeSlice";
 import Footer from "./components/Footer";
@@ -15,7 +15,6 @@ import {
   BreadcrumbSeparator,
 } from "./components/ui/breadcrumb";
 import { Link } from "react-router-dom";
-import { breadcrumbMap } from "./utils/breadcrumbMap";
 import StickyNavWrapper from "./components/StickyNavWrapper";
 
 const App: React.FC = () => {
@@ -41,8 +40,45 @@ const App: React.FC = () => {
   }, [theme, colors]);
 
   const location = useLocation();
+  const { category, id } = useParams<{ category?: string; id?: string }>();
   const pathSegments = location.pathname.split("/").filter(Boolean);
-  const params = useParams<{ category?: string; id?: string }>();
+
+  // ? Function to get product name from localStorage
+  const getProductName = (category?: string, id?: string) => {
+    if (!category || !id) return undefined;
+    const products = JSON.parse(localStorage.getItem("products") || "[]");
+    const product = products.find(
+      (p: { id: number; categories: string; name: string }) =>
+        p.id === Number(id) &&
+        p.categories.toLowerCase() === category.toLowerCase()
+    );
+    return product?.name;
+  };
+
+  const productName =
+    (location.state as { productName?: string })?.productName ||
+    getProductName(category, id);
+
+  // ? Function to get breadcrumb label
+
+  const breadcrumbSegments = useMemo(() => {
+    const getLabel = (segment: string): string => {
+      if (segment.toLowerCase() === category?.toLowerCase()) return "Product";
+      if (!isNaN(Number(segment)) && productName) return productName;
+      return segment.charAt(0).toUpperCase() + segment.slice(1);
+    };
+    return pathSegments
+      .filter(
+        (seg) => !(seg.toLowerCase() === "product" && pathSegments.length > 1)
+      )
+      .map((segment, index) => {
+        const fullPath = "/" + pathSegments.slice(0, index + 1).join("/");
+        const isLast = index === pathSegments.length - 1;
+        const label = getLabel(segment);
+
+        return { fullPath, isLast, label };
+      });
+  }, [pathSegments, category, productName]);
 
   return (
     <div className="relative font-poppins bg-[var(--bg-theme)] text-[var(--text-theme)]">
@@ -68,35 +104,27 @@ const App: React.FC = () => {
               </BreadcrumbLink>
             </BreadcrumbItem>
 
-            {pathSegments.map((segment, index) => {
-              const fullPath = "/" + pathSegments.slice(0, index + 1).join("/");
-              const isLast = index === pathSegments.length - 1;
-              const label =
-                breadcrumbMap[segment.toLowerCase()] ||
-                decodeURIComponent(segment);
-
-              return (
-                <React.Fragment key={index}>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    {isLast ? (
-                      <BreadcrumbPage className="font-semibold text-[var(--breadcrumb-page)] capitalize">
+            {breadcrumbSegments.map(({ fullPath, isLast, label }, index) => (
+              <React.Fragment key={index}>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  {isLast ? (
+                    <BreadcrumbPage className="font-semibold text-[var(--breadcrumb-page)] capitalize">
+                      {label}
+                    </BreadcrumbPage>
+                  ) : (
+                    <BreadcrumbLink asChild>
+                      <Link
+                        to={fullPath}
+                        className="font-semibold text-[var(--breadcrumb-page)] capitalize"
+                      >
                         {label}
-                      </BreadcrumbPage>
-                    ) : (
-                      <BreadcrumbLink asChild>
-                        <Link
-                          to={fullPath}
-                          className="font-semibold text-[var(--breadcrumb-page)] capitalize"
-                        >
-                          {label}
-                        </Link>
-                      </BreadcrumbLink>
-                    )}
-                  </BreadcrumbItem>
-                </React.Fragment>
-              );
-            })}
+                      </Link>
+                    </BreadcrumbLink>
+                  )}
+                </BreadcrumbItem>
+              </React.Fragment>
+            ))}
           </BreadcrumbList>
         </Breadcrumb>
 

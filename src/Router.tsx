@@ -23,7 +23,7 @@ const Router = () => {
     { path: "Contact", link: <Contact />, label: "Contact Us" },
     { path: "Profile", link: <Profile />, label: "My Profile" },
     { path: "Cart", link: <Cart />, label: "My Cart" },
-    { path: "Detail/:category/:id", link: <ProductDetail />, label: "Detail" }, // ! -> Require ID
+    { path: "Product/:category/:id", link: <ProductDetail />, label: "Detail" }, // ! -> Require ID
   ];
 
   return (

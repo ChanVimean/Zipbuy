@@ -51,14 +51,14 @@ const NavBar: React.FC = () => {
   return (
     <div
       className="flex justify-between lg:justify-evenly items-center w-full
-        py-2 px-4 md:px-16 lg:px-0 lg:py-2
+        px-4 md:px-16 lg:px-0
         bg-[var(--nav-theme)]"
     >
       {/* Logo */}
       <section className="block lg:w-auto">
         <div className="w-24 h-14 lg:w-32 lg:h-16 overflow-hidden">
           <img
-            src="Zipbuy-removebg-preview.png"
+            src="/Zipbuy-removebg-preview.png"
             alt="Logo"
             className="w-full h-full object-cover object-center scale-125"
           />
@@ -121,10 +121,10 @@ const NavBar: React.FC = () => {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <div className="flex items-center justify-between space-x-2">
-                <h1 className="text-xl font-semibold">{name}</h1>
-                <aside className="w-14 h-14 rounded-full overflow-hidden">
+                <h1 className="text-lg font-semibold">{name}</h1>
+                <aside className="w-10 h-10 rounded-full overflow-hidden">
                   <img
-                    src="Tony-Stark.webp"
+                    src="/Tony-Stark.webp"
                     alt="Profile"
                     className="w-full h-full object-cover"
                   />

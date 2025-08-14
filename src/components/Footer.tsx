@@ -62,9 +62,9 @@ const Footer = () => {
   ];
 
   const apps: { img: string; link: string }[] = [
-    { img: "Google.png", link: "" },
-    { img: "AppleStore.png", link: "" },
-    { img: "Window.png", link: "" },
+    { img: "/Google.png", link: "" },
+    { img: "/AppleStore.png", link: "" },
+    { img: "/Window.png", link: "" },
   ];
 
   return (

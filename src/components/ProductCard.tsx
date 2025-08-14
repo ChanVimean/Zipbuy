@@ -107,7 +107,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const [intPart, decimalPart] = rawPrice.toFixed(2).split(".");
 
     return (
-      <Link to={`/Detail/${card.categories}/${card.id}`} className="block">
+      <Link
+        to={`/Product/${card.categories}/${card.id}`}
+        state={{ productName: card.name }}
+        className="block"
+      >
         <Card
           key={index}
           className="relative flex flex-col border-2 pt-0 overflow-hidden gap-2"
@@ -270,7 +274,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   className="space-y-4 basis-1/3 md:basis-1/4 lg:basis-1/6 overflow-hidden"
                 >
                   <Link
-                    to={`/Detail/${card.categories}/${card.id}`}
+                    to={`/Product/${card.categories}/${card.id}`}
+                    state={{ productName: card.name }}
                     className="block"
                   >
                     <aside className="w-full h-24 md:h-36 lg:h-52 overflow-hidden rounded-sm shadow-sm">
