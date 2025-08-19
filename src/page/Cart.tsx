@@ -81,7 +81,7 @@ const Cart: React.FC = () => {
               </aside>
 
               {/* Quantity + Remove */}
-              <div className="flex flex-row lg:flex-col items-center justify-between gap-4">
+              <div className="flex items-center justify-between gap-4">
                 <aside className="flex items-center gap-3 font-medium text-xl">
                   <button
                     onClick={() => handleQtyChange(item.id, item.qty - 1)}

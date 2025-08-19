@@ -1,14 +1,20 @@
 import type { BaseProduct } from "@/types/Product";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
 import LineClampText from "./LineClampText";
 import { FaCartPlus, FaPause, FaPlay } from "react-icons/fa";
 import { FaCircleInfo } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/context/store";
+import useAutoSlider from "@/hook/useAutoSlider";
 
 interface FramerAutoSliderProps {
   data: BaseProduct[];
+  delay?: number;
+  autoScroll?: boolean;
+}
+
+interface FramerImagesProps {
+  image: string[];
   delay?: number;
   autoScroll?: boolean;
 }
@@ -18,28 +24,19 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
   delay = 4000,
   autoScroll = true,
 }) => {
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [isAutoScroll, setIsAutoScroll] = useState<boolean>(autoScroll);
+  const { currentIndex, isAutoScroll, toggleAutoPlay } = useAutoSlider({
+    length: data.length,
+    delay,
+    auto: autoScroll,
+  });
+
   const theme = useSelector((state: RootState) => state.theme.theme);
+
   const variants = {
     initial: { opacity: 0, x: -40, transition: { duration: 0.4 } },
     animate: { opacity: 1, x: 0, transition: { duration: 0.8 } },
     exit: { opacity: 0, x: 40, transition: { duration: 0.3 } },
   };
-
-  const toggleAutoPlay = () => {
-    setIsAutoScroll((prev) => !prev);
-  };
-
-  useEffect(() => {
-    if (!isAutoScroll || data.length <= 1) return;
-
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % data.length);
-    }, delay);
-
-    return () => clearInterval(timer);
-  }, [isAutoScroll, data.length, delay]);
 
   const current = data[currentIndex];
 
@@ -96,13 +93,13 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
               transition={{ duration: 1.0, delay: 0.5 }}
             >
               <LineClampText
-                text={current.desc}
+                text={current.desc || ""}
                 classText="opacity-80 hidden lg:block"
                 lines={0}
               />
               <LineClampText
-                text={current.desc}
-                classText="text-black block lg:hidden"
+                text={current.desc || ""}
+                classText="opacity-80 hidden lg:hidden"
                 lines={2}
               />
             </motion.div>
@@ -145,6 +142,51 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
         >
           {isAutoScroll ? <FaPause /> : <FaPlay />}
           <span>{isAutoScroll ? "Pause" : "Play"}</span>
+        </button>
+      </aside>
+    </div>
+  );
+};
+
+export const FramerImages: React.FC<FramerImagesProps> = ({
+  image,
+  delay = 4000,
+  autoScroll = true,
+}) => {
+  const { currentIndex, isAutoScroll, toggleAutoPlay } = useAutoSlider({
+    length: image.length,
+    delay,
+    auto: autoScroll,
+  });
+
+  if (!image || image.length === 0) {
+    return (
+      <div className="w-full h-[300px] flex items-center justify-center text-gray-500">
+        No images available.
+      </div>
+    );
+  }
+
+  const currentImage = image[currentIndex];
+
+  return (
+    <div className="relative w-full aspect-[4/3] lg:h-[500px] text-white border">
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={currentIndex}
+          src={currentImage}
+          alt={`slide-${currentIndex}`}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 10 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="w-full h-full object-cover"
+        />
+      </AnimatePresence>
+
+      <aside className="absolute top-2 left-4 bg-black/20 backdrop-blur-lg border">
+        <button className="p-2 cursor-pointer" onClick={toggleAutoPlay}>
+          {isAutoScroll ? <FaPause /> : <FaPlay />}
         </button>
       </aside>
     </div>

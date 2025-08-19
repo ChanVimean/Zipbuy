@@ -193,7 +193,7 @@ const Home = () => {
         <h2 className="font-semibold text-lg md:text-2xl">Categories</h2>
         <Carousel
           className={`shadow-sm rounded-lg py-4 text-slate-950 ${
-            theme === "light" ? "bg-blue-100" :"bg-blue-200"
+            theme === "light" ? "bg-blue-100" : "bg-blue-200"
           }`}
         >
           <CarouselContent>

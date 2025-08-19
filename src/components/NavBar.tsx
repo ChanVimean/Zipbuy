@@ -1,6 +1,6 @@
 import { toggleTheme } from "@/context/slices/themeSlice";
 import { useAppSelector } from "@/hook/redux";
-import { FaBell, FaMicrophone, FaSearch, FaShoppingCart } from "react-icons/fa";
+import { FaBell, FaMicrophone, FaShoppingCart } from "react-icons/fa";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -17,10 +17,10 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "./ui/navigation-menu";
-import { Input } from "./ui/input";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import type { RootState } from "@/context/store";
+import SearchEngine from "./SearchEngine";
 
 const NavBar: React.FC = () => {
   const dispatch = useDispatch();
@@ -87,14 +87,7 @@ const NavBar: React.FC = () => {
 
       {/* Search Bar */}
       <section className="flex w-2/3 lg:w-1/4 items-center space-x-4">
-        <div className="relative w-full">
-          <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-900/50" />
-          <Input
-            type="text"
-            placeholder="Search"
-            className="bg-white pl-10 pr-4 py-2"
-          />
-        </div>
+        <SearchEngine />
         <FaMicrophone className="text-xl opacity-75" />
       </section>
 
@@ -119,7 +112,7 @@ const NavBar: React.FC = () => {
 
         <aside>
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
               <div className="flex items-center justify-between space-x-2">
                 <h1 className="text-lg font-semibold">{name}</h1>
                 <aside className="w-10 h-10 rounded-full overflow-hidden">
