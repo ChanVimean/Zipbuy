@@ -28,6 +28,7 @@ const BaseDetail = <T extends BaseProduct>({
         thumbnail: product.thumbnail,
         price: Number(rawPrice.toFixed(2)),
         limited: product.limited,
+        categories: product.categories,
       })
     );
   };
