@@ -62,6 +62,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         thumbnail: product.thumbnail,
         price: Number(price),
         limited: product.limited,
+        categories: product.categories,
       })
     );
   };

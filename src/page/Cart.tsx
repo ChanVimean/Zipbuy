@@ -5,6 +5,7 @@ import type { RootState } from "@/context/store";
 import LineClampText from "@/components/LineClampText";
 import type { BaseProduct } from "@/types/Product";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 
 interface CartItem extends BaseProduct {
   qty: number;
@@ -54,11 +55,13 @@ const Cart: React.FC = () => {
             >
               {/* Image & Detail */}
               <div className="flex gap-4">
-                <img
-                  src={item.thumbnail}
-                  alt={item.name}
-                  className="w-28 h-28 md:w-36 md:h-36 object-cover rounded"
-                />
+                <Link to={`/Product/${item.categories}/${item.id}`}>
+                  <img
+                    src={item.thumbnail}
+                    alt={item.name}
+                    className="w-28 h-28 md:w-36 md:h-36 object-cover rounded"
+                  />
+                </Link>
                 <article className="space-y-1 flex-1">
                   <h3 className="font-semibold">{item.name}</h3>
                   <LineClampText

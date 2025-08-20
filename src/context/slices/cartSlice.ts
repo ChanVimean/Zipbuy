@@ -1,3 +1,4 @@
+import type { Categories } from "@/types/Product";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export interface CartItem {
@@ -8,6 +9,7 @@ export interface CartItem {
   price: number;
   qty: number;
   limited: boolean;
+  categories: Categories;
 }
 
 interface CartState {
