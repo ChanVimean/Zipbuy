@@ -13,6 +13,7 @@ import CustomCarousel from "@/components/CustomCarousel";
 import { FramerAutoSlider } from "@/components/FramerComponents";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/context/store";
+import { Link } from "react-router-dom";
 
 type MiniSectionType = {
   title: string;
@@ -151,6 +152,7 @@ const Home = () => {
             </ul>
           </article>
         </main>
+
         <aside>
           <ul className="flex flex-col md:flex-row flex-wrap lg:flex-nowrap justify-between space-y-8 lg:space-y-0">
             <li className="w-full md:w-1/2 text-center space-x-4">
@@ -202,13 +204,16 @@ const Home = () => {
                 key={index}
                 className="basis-1/4 md:basis-1/5 lg:basis-1/10 flex flex-col items-center md:justify-center space-y-2"
               >
-                <div className="h-10 md:h-12 lg:h-16 w-auto">
+                <Link
+                  to={`/Search?brand=${encodeURIComponent(brand)}`}
+                  className="h-10 md:h-12 lg:h-16 w-auto"
+                >
                   <img
                     src={brandLogo}
                     alt={brand}
                     className="w-full h-full object-cover"
                   />
-                </div>
+                </Link>
                 <h3 className="font-medium text-center text-sm md:text-md lg:text-lg">
                   {brand}
                 </h3>

@@ -6,6 +6,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "./ui/carousel";
+import { Link } from "react-router-dom";
 
 interface CustomCarouselProps {
   title: string;
@@ -29,19 +30,23 @@ const CustomCarousel: React.FC<CustomCarouselProps> = ({
         <CarouselContent>
           {filteredItems.map((item, index) => (
             <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/5">
-              <div className="relative">
-                <img
-                  src={item.thumbnail}
-                  alt={item.name}
-                  className="w-full h-64 object-cover rounded"
-                />
-                <div className="absolute top-4 left-4 bg-black/70 text-white px-2 py-1 rounded">
-                  ${(item.price - item.price * item.discount).toFixed(2)}
+              <Link to={`/Product/${item.categories}/${item.id}`}>
+                <div className="relative">
+                  <div className="w-full h-64 overflow-hidden">
+                    <img
+                      src={item.thumbnail}
+                      alt={item.name}
+                      className="w-full h-full object-cover rounded hover:scale-110 duration-300 ease-in-out"
+                    />
+                  </div>
+                  <div className="absolute top-4 left-4 bg-black/70 text-white px-2 py-1 rounded">
+                    ${(item.price - item.price * item.discount).toFixed(2)}
+                  </div>
                 </div>
-              </div>
-              <h3 className="text-lg font-semibold mt-2 text-center">
-                {item.name}
-              </h3>
+                <h3 className="text-lg font-semibold mt-2 text-center">
+                  {item.name}
+                </h3>
+              </Link>
             </CarouselItem>
           ))}
         </CarouselContent>

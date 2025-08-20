@@ -23,6 +23,14 @@ import type { RootState } from "@/context/store";
 import { IoMdMore } from "react-icons/io";
 import { addToCart } from "@/context/slices/cartSlice";
 import { Link } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 interface ProductCardProps {
   title?: string;
@@ -121,7 +129,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <img
               src={card.thumbnail}
               alt={card.name}
-              className="w-full h-auto object-cover object-center"
+              className="w-full h-auto object-cover object-center hover:scale-110 duration-300 ease-in-out"
             />
           </aside>
           <CardHeader className="w-full flex flex-col justify-between text-start space-x-2 mt-2 px-4">
@@ -161,12 +169,26 @@ const ProductCard: React.FC<ProductCardProps> = ({
               <FaCartPlus />
             </button>
 
-            <button
-              onClick={(e) => e.stopPropagation()}
-              className="text-2xl lg:text-3xl cursor-pointer"
-            >
-              <IoMdMore />
-            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                asChild
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+              >
+                <button className="text-2xl lg:text-3xl cursor-pointer">
+                  <IoMdMore />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>More</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Add to Wishlist</DropdownMenuItem>
+                <DropdownMenuItem>Compare</DropdownMenuItem>
+                <DropdownMenuItem>Share</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </CardFooter>
         </Card>
       </Link>
@@ -274,58 +296,69 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   key={index}
                   className="space-y-4 basis-1/3 md:basis-1/4 lg:basis-1/6 overflow-hidden"
                 >
-                  <Link
-                    to={`/Product/${card.categories}/${card.id}`}
-                    state={{ productName: card.name }}
-                    className="block"
-                  >
-                    <aside className="w-full h-24 md:h-36 lg:h-52 overflow-hidden rounded-sm shadow-sm">
+                  <aside className="w-full h-24 md:h-36 lg:h-52 overflow-hidden rounded-sm shadow-sm">
+                    <Link
+                      to={`/Product/${card.categories}/${card.id}`}
+                      state={{ productName: card.name }}
+                    >
                       <img
                         src={card.thumbnail}
                         alt={card.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover hover:scale-110 duration-300 ease-in-out"
                       />
-                    </aside>
+                    </Link>
+                  </aside>
 
-                    {/* Container */}
-                    <article className="space-y-2 px-2">
-                      <h1 className="w-full text-start">
-                        <LineClampText
-                          text={card.name}
-                          lines={1}
-                          classText="font-medium text-sm md:text-md lg:text-lg"
-                        />
-                      </h1>
+                  {/* Container */}
+                  <article className="space-y-2 px-2">
+                    <h1 className="w-full text-start">
+                      <LineClampText
+                        text={card.name}
+                        lines={1}
+                        classText="font-medium text-sm md:text-md lg:text-lg"
+                      />
+                    </h1>
 
-                      {/* Price row */}
-                      <div className="flex justify-between items-center">
-                        <span className="font-semibold text-md md:text-lg lg:text-xl">
-                          ${intPart}
-                          <span className="text-xs relative -top-[4px] ml-0.5">
-                            .{decimalPart}
-                          </span>
+                    {/* Price row */}
+                    <div className="flex justify-between items-center">
+                      <span className="font-semibold text-md md:text-lg lg:text-xl">
+                        ${intPart}
+                        <span className="text-xs relative -top-[4px] ml-0.5">
+                          .{decimalPart}
                         </span>
-                        <span className="text-xs">⭐ ({card.rating})</span>
-                      </div>
+                      </span>
+                      <span className="text-xs">⭐ ({card.rating})</span>
+                    </div>
 
-                      {/* Action & More buttons*/}
-                      <div className="flex justify-between items-center mt-6">
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleAddToCart(card);
-                          }}
-                          className="text-2xl md:text-3xl cursor-pointer"
-                        >
-                          <FaCartPlus />
-                        </button>
-                        <button className="text-3xl cursor-pointer">
-                          <IoMdMore />
-                        </button>
-                      </div>
-                    </article>
-                  </Link>
+                    {/* Action & More buttons*/}
+                    <div className="flex justify-between items-center mt-6">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleAddToCart(card);
+                        }}
+                        className="text-2xl md:text-3xl cursor-pointer"
+                      >
+                        <FaCartPlus />
+                      </button>
+
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <button className="text-3xl cursor-pointer">
+                            <IoMdMore />
+                          </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuLabel>More</DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem>Add to Wishlist</DropdownMenuItem>
+                          <DropdownMenuItem>Compare</DropdownMenuItem>
+                          <DropdownMenuItem>Share</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  </article>
                 </CarouselItem>
               );
             })}

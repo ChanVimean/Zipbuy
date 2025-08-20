@@ -3,9 +3,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import LineClampText from "./LineClampText";
 import { FaCartPlus, FaPause, FaPlay } from "react-icons/fa";
 import { FaCircleInfo } from "react-icons/fa6";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/context/store";
 import useAutoSlider from "@/hook/useAutoSlider";
+import { addToCart } from "@/context/slices/cartSlice";
+import { Link } from "react-router-dom";
 
 interface FramerAutoSliderProps {
   data: BaseProduct[];
@@ -30,6 +32,7 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
     auto: autoScroll,
   });
 
+  const dispatch = useDispatch();
   const theme = useSelector((state: RootState) => state.theme.theme);
 
   const variants = {
@@ -47,6 +50,22 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
       </div>
     );
   }
+
+  const handleAddToCart = (product: BaseProduct) => {
+    const price = (product.price - product.price * product.discount).toFixed(2);
+
+    dispatch(
+      addToCart({
+        id: product.id,
+        name: product.name,
+        desc: product.desc,
+        thumbnail: product.thumbnail,
+        price: Number(price),
+        limited: product.limited,
+        categories: product.categories,
+      })
+    );
+  };
 
   return (
     <div
@@ -111,21 +130,33 @@ export const FramerAutoSlider: React.FC<FramerAutoSliderProps> = ({
               className="flex items-center space-x-4"
             >
               <h3 className="text-xl font-bold">${current.price}</h3>
-              <button className="text-2xl cursor-pointer">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleAddToCart(current);
+                }}
+                className="text-2xl cursor-pointer"
+              >
                 <FaCartPlus />
               </button>
-              <button className="text-2xl cursor-pointer">
+              <Link
+                to={`/Product/${current.categories}/${current.id}`}
+                className="text-2xl cursor-pointer"
+              >
                 <FaCircleInfo />
-              </button>
+              </Link>
             </motion.div>
           </article>
 
           <aside className="flex justify-center lg:justify-end overflow-hidden">
-            <img
-              src={current.thumbnail}
-              alt={current.name}
-              className="max-h-[400px] lg:max-h-[300px] w-auto rounded-lg shadow-lg object-cover"
-            />
+            <Link to={`/Product/${current.categories}/${current.id}`}>
+              <img
+                src={current.thumbnail}
+                alt={current.name}
+                className="max-h-[400px] lg:max-h-[300px] w-auto rounded-lg shadow-lg object-cover"
+              />
+            </Link>
           </aside>
         </motion.div>
       </AnimatePresence>
