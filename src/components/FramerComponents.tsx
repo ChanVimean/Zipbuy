@@ -184,7 +184,7 @@ export const FramerImages: React.FC<FramerImagesProps> = ({
         />
       </AnimatePresence>
 
-      <aside className="absolute top-2 left-4 bg-black/20 backdrop-blur-lg border">
+      <aside className="absolute top-2 left-4 bg-black/40 backdrop-blur-sm border">
         <button className="p-2 cursor-pointer" onClick={toggleAutoPlay}>
           {isAutoScroll ? <FaPause /> : <FaPlay />}
         </button>

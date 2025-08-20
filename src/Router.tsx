@@ -9,6 +9,7 @@ import Cart from "./page/Cart";
 import type { JSX } from "react";
 import Contact from "./page/Contact";
 import ProductDetail from "./page/ProductDetail";
+import Search from "./page/Search";
 
 interface RouterInterface {
   path: string;
@@ -23,6 +24,7 @@ const Router = () => {
     { path: "Contact", link: <Contact />, label: "Contact Us" },
     { path: "Profile", link: <Profile />, label: "My Profile" },
     { path: "Cart", link: <Cart />, label: "My Cart" },
+    { path: "Search", link: <Search />, label: "Search" },
     { path: "Product/:category/:id", link: <ProductDetail />, label: "Detail" }, // ! -> Require ID
   ];
 
